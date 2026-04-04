@@ -1,0 +1,1896 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>De-escalation Landscape Explorer | کاوشگر چشم‌انداز کاهش تنش</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=Vazirmatn:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ============================
+   CSS VARIABLES & RESET
+   ============================ */
+:root {
+  --bg: #0a0c10;
+  --surface: #111318;
+  --surface2: #181c24;
+  --surface3: #1e2330;
+  --border: rgba(255,255,255,0.07);
+  --border-strong: rgba(255,255,255,0.15);
+
+  --text-primary: #e8eaf0;
+  --text-secondary: #8a90a0;
+  --text-muted: #4a5068;
+
+  --accent-gold: #c9a84c;
+  --accent-gold-light: #e8c96a;
+  --accent-red: #e05252;
+  --accent-green: #52c0a0;
+
+  --domestic: #4a90d9;
+  --international: #d9534a;
+  --dual: #9b6cd9;
+
+  --speed-fast: #52c0a0;
+  --speed-medium: #c9a84c;
+  --speed-slow: #8a90a0;
+
+  --risk-low: #52c0a0;
+  --risk-medium: #c9a84c;
+  --risk-high: #e05252;
+
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-persian: 'Vazirmatn', 'DM Sans', sans-serif;
+
+  --radius: 8px;
+  --radius-lg: 16px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+  --shadow-lg: 0 8px 48px rgba(0,0,0,0.6);
+
+  --sidebar-width: 260px;
+  --drawer-height: 380px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+body[dir="rtl"] {
+  font-family: var(--font-persian);
+  direction: rtl;
+}
+
+/* ============================
+   LAYOUT
+   ============================ */
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ============================
+   HEADER
+   ============================ */
+#header {
+  background: linear-gradient(135deg, #0d1018 0%, #141822 50%, #0d1018 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(20px);
+}
+
+.header-inner {
+  max-width: 1600px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  gap: 16px;
+}
+
+.header-title {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.header-title h1 {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+[dir="rtl"] .header-title h1 {
+  font-family: var(--font-persian);
+}
+
+.header-subtitle {
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lang-toggle {
+  display: flex;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.lang-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  transition: all 0.2s;
+  letter-spacing: 0.04em;
+}
+
+.lang-btn.active {
+  background: var(--accent-gold);
+  color: #0a0c10;
+}
+
+.iran-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.iran-toggle:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
+.iran-toggle.active { background: rgba(201,168,76,0.15); border-color: var(--accent-gold); color: var(--accent-gold); }
+
+.toggle-dot {
+  width: 28px;
+  height: 16px;
+  background: var(--surface3);
+  border-radius: 8px;
+  position: relative;
+  transition: background 0.2s;
+  border: 1px solid var(--border-strong);
+}
+
+.toggle-dot::after {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  transition: all 0.2s;
+}
+
+.iran-toggle.active .toggle-dot { background: rgba(201,168,76,0.3); }
+.iran-toggle.active .toggle-dot::after { left: 14px; background: var(--accent-gold); }
+
+/* ============================
+   FEEDBACK LOOP BAR
+   ============================ */
+#loop-bar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  overflow: hidden;
+}
+
+.loop-bar-inner {
+  max-width: 1600px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 12px 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.loop-bar-inner::-webkit-scrollbar { display: none; }
+
+.loop-label {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  white-space: nowrap;
+  margin-right: 16px;
+  flex-shrink: 0;
+}
+
+[dir="rtl"] .loop-label { margin-right: 0; margin-left: 16px; }
+
+.loop-nodes {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex-shrink: 0;
+}
+
+.loop-node {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 5px 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  position: relative;
+}
+
+.loop-node:hover { border-color: var(--accent-gold); color: var(--accent-gold); background: rgba(201,168,76,0.08); }
+.loop-node.active { border-color: var(--accent-gold); color: var(--accent-gold); background: rgba(201,168,76,0.12); }
+
+.loop-arrow {
+  color: var(--text-muted);
+  font-size: 14px;
+  padding: 0 6px;
+  user-select: none;
+}
+
+[dir="rtl"] .loop-arrow { transform: scaleX(-1); }
+
+.loop-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+/* ============================
+   MAIN CONTENT
+   ============================ */
+#main-content {
+  display: flex;
+  flex: 1;
+  max-width: 1600px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ============================
+   SIDEBAR FILTERS
+   ============================ */
+#sidebar {
+  width: var(--sidebar-width);
+  flex-shrink: 0;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 16px;
+  overflow-y: auto;
+  height: calc(100vh - 64px - 57px);
+  position: sticky;
+  top: calc(64px + 57px);
+}
+
+[dir="rtl"] #sidebar { border-right: none; border-left: 1px solid var(--border); }
+
+.filter-section { margin-bottom: 24px; }
+
+.filter-title {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chip {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.15s;
+  color: var(--text-secondary);
+  user-select: none;
+}
+
+.chip:hover { border-color: var(--border-strong); color: var(--text-primary); }
+.chip.active { border-color: currentColor; }
+.chip.target-domestic { color: var(--domestic); }
+.chip.target-domestic.active { background: rgba(74,144,217,0.15); }
+.chip.target-international { color: var(--international); }
+.chip.target-international.active { background: rgba(217,83,74,0.15); }
+.chip.target-dual { color: var(--dual); }
+.chip.target-dual.active { background: rgba(155,108,217,0.15); }
+.chip.speed-fast { color: var(--speed-fast); }
+.chip.speed-fast.active { background: rgba(82,192,160,0.15); }
+.chip.speed-medium { color: var(--speed-medium); }
+.chip.speed-medium.active { background: rgba(201,168,76,0.15); }
+.chip.speed-slow { color: var(--speed-slow); }
+.chip.speed-slow.active { background: rgba(138,144,160,0.15); }
+.chip.active-actor { color: var(--accent-gold); }
+.chip.active-actor.active { background: rgba(201,168,76,0.15); }
+
+.risk-slider-wrap { padding: 4px 0; }
+.risk-label-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(to right, var(--risk-low) 0%, var(--risk-medium) 50%, var(--risk-high) 100%);
+  border-radius: 2px;
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--text-primary);
+  cursor: pointer;
+  border: 2px solid var(--bg);
+  box-shadow: 0 0 0 2px var(--accent-gold);
+}
+
+.reset-btn {
+  width: 100%;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-muted);
+  padding: 8px;
+  cursor: pointer;
+  font-size: 11px;
+  font-family: inherit;
+  transition: all 0.2s;
+  margin-top: 8px;
+}
+
+.reset-btn:hover { border-color: var(--border-strong); color: var(--text-primary); }
+
+/* ============================
+   GRID AREA
+   ============================ */
+#grid-area {
+  flex: 1;
+  overflow: auto;
+  padding: 20px;
+  min-width: 0;
+}
+
+.grid-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.grid-stats {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.grid-stats span { color: var(--text-primary); font-weight: 600; }
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.legend-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* The Grid Table */
+.grid-wrapper {
+  overflow-x: auto;
+}
+
+table.action-grid {
+  border-collapse: separate;
+  border-spacing: 4px;
+  min-width: 700px;
+}
+
+table.action-grid th {
+  padding: 8px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-align: center;
+  white-space: nowrap;
+}
+
+table.action-grid th.row-header {
+  text-align: left;
+  background: none;
+  color: var(--text-muted);
+  min-width: 120px;
+}
+
+[dir="rtl"] table.action-grid th.row-header { text-align: right; }
+
+table.action-grid td.actor-label {
+  font-size: 11px;
+  color: var(--text-secondary);
+  padding: 6px 12px;
+  white-space: nowrap;
+  font-weight: 500;
+  vertical-align: top;
+  padding-top: 14px;
+}
+
+table.action-grid td.cell {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 8px;
+  vertical-align: top;
+  min-width: 140px;
+  transition: background 0.2s;
+}
+
+table.action-grid td.cell:hover { background: var(--surface2); }
+table.action-grid td.cell.empty { background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.03); }
+
+/* Action Node / Card */
+.action-node {
+  border-radius: 6px;
+  padding: 8px 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 6px;
+  position: relative;
+  overflow: hidden;
+}
+
+.action-node:last-child { margin-bottom: 0; }
+
+.action-node::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  border-radius: 3px 0 0 3px;
+}
+
+.action-node.target-domestic { background: rgba(74,144,217,0.08); border: 1px solid rgba(74,144,217,0.2); }
+.action-node.target-domestic::before { background: var(--domestic); }
+.action-node.target-international { background: rgba(217,83,74,0.08); border: 1px solid rgba(217,83,74,0.2); }
+.action-node.target-international::before { background: var(--international); }
+.action-node.target-dual { background: rgba(155,108,217,0.08); border: 1px solid rgba(155,108,217,0.2); }
+.action-node.target-dual::before { background: var(--dual); }
+
+.action-node:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,0,0,0.3); }
+.action-node.selected { box-shadow: 0 0 0 2px var(--accent-gold), 0 4px 16px rgba(201,168,76,0.2); }
+.action-node.iran-highlight { box-shadow: 0 0 0 1px var(--accent-gold); }
+.action-node.iran-dim { opacity: 0.2; }
+
+.node-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+
+.node-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+
+.badge {
+  font-size: 9px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.badge.speed-fast { background: rgba(82,192,160,0.2); color: var(--speed-fast); }
+.badge.speed-medium { background: rgba(201,168,76,0.2); color: var(--speed-medium); }
+.badge.speed-slow { background: rgba(138,144,160,0.15); color: var(--speed-slow); }
+.badge.risk-1 { background: rgba(82,192,160,0.2); color: var(--risk-low); }
+.badge.risk-2 { background: rgba(201,168,76,0.2); color: var(--risk-medium); }
+.badge.risk-3 { background: rgba(224,82,82,0.2); color: var(--risk-high); }
+.badge.iran { background: rgba(201,168,76,0.2); color: var(--accent-gold); }
+
+/* ============================
+   DETAIL DRAWER
+   ============================ */
+#drawer {
+  position: fixed;
+  bottom: 0;
+  left: 0; right: 0;
+  height: var(--drawer-height);
+  background: var(--surface);
+  border-top: 1px solid var(--border-strong);
+  z-index: 200;
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 -8px 40px rgba(0,0,0,0.5);
+}
+
+#drawer.open { transform: translateY(0); }
+
+.drawer-handle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px 8px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.drawer-handle-bar {
+  width: 40px; height: 3px;
+  background: var(--border-strong);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.drawer-handle-bar:hover { background: var(--text-muted); }
+
+.drawer-close {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px;
+  font-size: 18px;
+  line-height: 1;
+  transition: color 0.2s;
+}
+
+.drawer-close:hover { color: var(--text-primary); }
+
+.drawer-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 24px 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  padding-top: 16px;
+}
+
+@media (max-width: 900px) {
+  .drawer-content { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 600px) {
+  .drawer-content { grid-template-columns: 1fr; }
+  #drawer { height: 70vh; }
+  var(--drawer-height): 70vh;
+}
+
+.drawer-section h3 {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.drawer-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+
+[dir="rtl"] .drawer-title { font-family: var(--font-persian); }
+
+.drawer-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.drawer-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.iran-note {
+  background: rgba(201,168,76,0.08);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  font-size: 12px;
+  color: var(--accent-gold-light);
+  line-height: 1.5;
+}
+
+/* Radar / Trade-offs */
+.tradeoff-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tradeoff-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tradeoff-label {
+  width: 110px;
+  font-size: 11px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.tradeoff-bar {
+  flex: 1;
+  height: 6px;
+  background: var(--surface3);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.tradeoff-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tradeoff-fill.gold { background: var(--accent-gold); }
+.tradeoff-fill.blue { background: var(--domestic); }
+.tradeoff-fill.red { background: var(--international); }
+.tradeoff-fill.green { background: var(--accent-green); }
+.tradeoff-fill.purple { background: var(--dual); }
+
+.tradeoff-val {
+  width: 20px;
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-align: right;
+}
+
+[dir="rtl"] .tradeoff-val { text-align: left; }
+
+/* ============================
+   TOOLTIP
+   ============================ */
+#tooltip {
+  position: fixed;
+  background: var(--surface2);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  padding: 10px 14px;
+  font-size: 12px;
+  max-width: 220px;
+  pointer-events: none;
+  z-index: 300;
+  box-shadow: var(--shadow);
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+#tooltip.visible { opacity: 1; }
+
+.tooltip-title {
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+  font-size: 13px;
+}
+
+.tooltip-desc {
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+
+.tooltip-iran {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--accent-gold);
+}
+
+/* ============================
+   EMPTY STATE
+   ============================ */
+.empty-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 11px;
+  padding: 8px;
+  opacity: 0.4;
+  font-style: italic;
+}
+
+/* ============================
+   SCROLLBAR
+   ============================ */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--surface); }
+::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--border-strong); }
+
+/* ============================
+   RESPONSIVE
+   ============================ */
+@media (max-width: 768px) {
+  #sidebar { display: none; }
+  #sidebar.mobile-open {
+    display: block;
+    position: fixed;
+    top: 0; left: 0;
+    width: 280px;
+    height: 100vh;
+    z-index: 150;
+    top: 0;
+  }
+  [dir="rtl"] #sidebar.mobile-open { left: auto; right: 0; }
+  .header-title h1 { font-size: 14px; }
+  .header-subtitle { display: none; }
+  .iran-toggle span.label { display: none; }
+}
+
+/* ============================
+   ANIMATIONS
+   ============================ */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.action-node {
+  animation: fadeIn 0.25s ease both;
+}
+
+/* Mobile filter btn */
+.mobile-filter-btn {
+  display: none;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 12px;
+  color: var(--text-secondary);
+  font-size: 12px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+@media (max-width: 768px) { .mobile-filter-btn { display: flex; align-items: center; gap: 6px; } }
+
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 140;
+  backdrop-filter: blur(4px);
+}
+.overlay.active { display: block; }
+</style>
+</head>
+<body>
+
+<div id="app">
+
+  <!-- HEADER -->
+  <header id="header">
+    <div class="header-inner">
+      <div class="header-title">
+        <h1 id="main-title">De-escalation Landscape Explorer</h1>
+        <div class="header-subtitle" id="sub-title">A taxonomy of interventions in interlocking crises</div>
+      </div>
+      <div class="header-controls">
+        <button class="mobile-filter-btn" onclick="toggleMobileSidebar()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="16" y2="12"/><line x1="4" y1="18" x2="12" y2="18"/></svg>
+          <span id="filter-btn-label">Filters</span>
+        </button>
+        <div class="lang-toggle">
+          <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+          <button class="lang-btn" id="btn-fa" onclick="setLang('fa')">فارسی</button>
+        </div>
+        <button class="iran-toggle" id="iran-toggle-btn" onclick="toggleIranMode()">
+          <div class="toggle-dot"></div>
+          <span class="label" id="iran-label">Iran Context</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- FEEDBACK LOOP BAR -->
+  <div id="loop-bar">
+    <div class="loop-bar-inner">
+      <div class="loop-label" id="loop-bar-label">CRISIS CYCLE →</div>
+      <div class="loop-nodes" id="loop-nodes">
+        <!-- populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div id="main-content">
+
+    <!-- SIDEBAR -->
+    <aside id="sidebar">
+      <div class="filter-section">
+        <div class="filter-title" id="filter-target-label">TARGET</div>
+        <div class="filter-chips" id="filter-target"></div>
+      </div>
+      <div class="filter-section">
+        <div class="filter-title" id="filter-speed-label">SPEED</div>
+        <div class="filter-chips" id="filter-speed"></div>
+      </div>
+      <div class="filter-section">
+        <div class="filter-title" id="filter-risk-label">MAX RISK</div>
+        <div class="risk-slider-wrap">
+          <div class="risk-label-row">
+            <span id="risk-low-label">Low</span>
+            <span id="risk-high-label">High</span>
+          </div>
+          <input type="range" id="risk-slider" min="1" max="3" value="3" oninput="applyFilters()">
+        </div>
+      </div>
+      <div class="filter-section">
+        <div class="filter-title" id="filter-actor-label">ACTOR</div>
+        <div class="filter-chips" id="filter-actor"></div>
+      </div>
+      <button class="reset-btn" id="reset-btn" onclick="resetFilters()">↺ Reset Filters</button>
+    </aside>
+
+    <!-- GRID -->
+    <div id="grid-area">
+      <div class="grid-header">
+        <div class="grid-stats" id="grid-stats"></div>
+        <div class="legend" id="legend"></div>
+      </div>
+      <div class="grid-wrapper">
+        <table class="action-grid" id="action-grid"></table>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- DETAIL DRAWER -->
+  <div id="drawer">
+    <div class="drawer-handle">
+      <div class="drawer-handle-bar" onclick="closeDrawer()"></div>
+      <button class="drawer-close" onclick="closeDrawer()">×</button>
+    </div>
+    <div class="drawer-content" id="drawer-content">
+      <!-- populated by JS -->
+    </div>
+  </div>
+
+  <!-- TOOLTIP -->
+  <div id="tooltip">
+    <div class="tooltip-title" id="tt-title"></div>
+    <div class="tooltip-desc" id="tt-desc"></div>
+    <div class="tooltip-iran" id="tt-iran"></div>
+  </div>
+
+  <!-- OVERLAY for mobile -->
+  <div class="overlay" id="overlay" onclick="toggleMobileSidebar()"></div>
+
+</div>
+
+<script>
+// ============================
+// DATA
+// ============================
+const ACTIONS = [
+  {
+    id: "dialogue_circles",
+    title_en: "Dialogue Circles",
+    title_fa: "حلقه‌های گفت‌وگو",
+    actor: "individual",
+    method: "civic",
+    target: "domestic",
+    description_en: "Small-group facilitated conversations bridging ideological or communal divides. Often locally organized by community members or NGOs.",
+    description_fa: "گفت‌وگوهای گروه کوچک به تسهیل‌گری برای پل زدن میان شکاف‌های ایدئولوژیک یا اجتماعی. اغلب توسط اعضای جامعه یا سازمان‌های مردم‌نهاد سازماندهی می‌شوند.",
+    speed: "slow",
+    scalability: 2,
+    risk: 1,
+    reversibility: 5,
+    institutional_reliance: 1,
+    tech_usage: 1,
+    cultural_adaptability: 5,
+    resources: 1,
+    iran_relevance: 5,
+    iran_notes_en: "Grassroots dialogue has significant potential in Iran's generational and ideological divides, though state surveillance presents real obstacles.",
+    iran_notes_fa: "گفت‌وگوی پایه‌ای پتانسیل قابل توجهی در شکاف‌های نسلی و ایدئولوژیک ایران دارد، اگرچه نظارت دولتی موانع واقعی ایجاد می‌کند."
+  },
+  {
+    id: "digital_activism",
+    title_en: "Digital Activism",
+    title_fa: "فعالیت دیجیتال",
+    actor: "individual",
+    method: "technological",
+    target: "domestic",
+    description_en: "Citizens using social media, encrypted platforms, and digital networks to organize, document violations, and shift public narratives.",
+    description_fa: "شهروندانی که از رسانه‌های اجتماعی، پلتفرم‌های رمزگذاری‌شده و شبکه‌های دیجیتال برای سازماندهی، مستندسازی نقض‌ها و تغییر روایت‌های عمومی استفاده می‌کنند.",
+    speed: "fast",
+    scalability: 4,
+    risk: 3,
+    reversibility: 3,
+    institutional_reliance: 1,
+    tech_usage: 5,
+    cultural_adaptability: 3,
+    resources: 1,
+    iran_relevance: 5,
+    iran_notes_en: "Critical in Iran but high-risk due to surveillance, internet shutdowns, and prosecutions of activists — especially post-2022 Mahsa protests.",
+    iran_notes_fa: "در ایران حیاتی است اما به دلیل نظارت، قطع اینترنت و تعقیب قضایی فعالان — به‌ویژه پس از اعتراضات مهسا در ۱۴۰۱ — پرخطر است."
+  },
+  {
+    id: "media_literacy",
+    title_en: "Media Literacy Campaigns",
+    title_fa: "کمپین‌های سواد رسانه‌ای",
+    actor: "individual",
+    method: "civic",
+    target: "domestic",
+    description_en: "Educational programs and campaigns that teach critical evaluation of information sources, combating disinformation that fuels polarization.",
+    description_fa: "برنامه‌ها و کمپین‌های آموزشی که ارزیابی انتقادی منابع اطلاعاتی را آموزش می‌دهند و با اطلاعات غلطی که قطبی‌سازی را تقویت می‌کند مقابله می‌کنند.",
+    speed: "slow",
+    scalability: 3,
+    risk: 1,
+    reversibility: 4,
+    institutional_reliance: 2,
+    tech_usage: 3,
+    cultural_adaptability: 4,
+    resources: 2,
+    iran_relevance: 4,
+    iran_notes_en: "Information fragmentation between state media and diaspora/digital networks makes this especially relevant for Iran.",
+    iran_notes_fa: "تجزیه اطلاعات بین رسانه‌های دولتی و شبکه‌های دیاسپورا/دیجیتال این موضوع را به‌ویژه برای ایران مرتبط می‌کند."
+  },
+  {
+    id: "track2_diplomacy",
+    title_en: "Track II Diplomacy",
+    title_fa: "دیپلماسی مسیر دوم",
+    actor: "organization",
+    method: "diplomatic",
+    target: "dual",
+    description_en: "Unofficial dialogue between experts, academics, or former officials from conflicting parties when formal talks are stalled.",
+    description_fa: "گفت‌وگوی غیررسمی بین کارشناسان، دانشگاهیان یا مقامات سابق از طرف‌های درگیر هنگامی که مذاکرات رسمی متوقف شده‌اند.",
+    speed: "slow",
+    scalability: 3,
+    risk: 2,
+    reversibility: 3,
+    institutional_reliance: 2,
+    tech_usage: 2,
+    cultural_adaptability: 4,
+    resources: 2,
+    iran_relevance: 4,
+    iran_notes_en: "Can reduce external tensions while subtly influencing domestic narratives. Diaspora academics have served as informal bridges.",
+    iran_notes_fa: "می‌تواند تنش خارجی را کاهش دهد و در عین حال به آرامی بر روایت داخلی تأثیر بگذارد. دانشگاهیان دیاسپورا به‌عنوان پل‌های غیررسمی عمل کرده‌اند."
+  },
+  {
+    id: "peace_infrastructure",
+    title_en: "Peace Infrastructure Building",
+    title_fa: "ساخت زیرساخت صلح",
+    actor: "organization",
+    method: "civic",
+    target: "domestic",
+    description_en: "NGOs and civil society organizations building sustained networks of trust, cooperation, and reconciliation across divided communities.",
+    description_fa: "سازمان‌های غیردولتی و جامعه مدنی که شبکه‌های پایدار اعتماد، همکاری و آشتی را در جوامع تقسیم‌شده می‌سازند.",
+    speed: "slow",
+    scalability: 2,
+    risk: 2,
+    reversibility: 3,
+    institutional_reliance: 2,
+    tech_usage: 2,
+    cultural_adaptability: 5,
+    resources: 3,
+    iran_relevance: 3,
+    iran_notes_en: "Limited operational space for independent NGOs in Iran, but diaspora organizations and underground civil society play important roles.",
+    iran_notes_fa: "فضای عملیاتی محدود برای سازمان‌های غیردولتی مستقل در ایران، اما سازمان‌های دیاسپورا و جامعه مدنی زیرزمینی نقش‌های مهمی ایفا می‌کنند."
+  },
+  {
+    id: "humanitarian_pause",
+    title_en: "Humanitarian Pause",
+    title_fa: "توقف بشردوستانه",
+    actor: "organization",
+    method: "mitigation",
+    target: "international",
+    description_en: "Temporary suspension of hostilities to allow delivery of aid, medical evacuations, and civilian protection — building incremental trust.",
+    description_fa: "تعلیق موقت خصومت‌ها برای اجازه دادن به تحویل کمک‌ها، تخلیه پزشکی و حمایت از غیرنظامیان — ساختن اعتماد تدریجی.",
+    speed: "fast",
+    scalability: 3,
+    risk: 2,
+    reversibility: 4,
+    institutional_reliance: 3,
+    tech_usage: 2,
+    cultural_adaptability: 4,
+    resources: 3,
+    iran_relevance: 3,
+    iran_notes_en: "Relevant in regional proxy conflicts involving Iranian actors (Yemen, Syria). Pauses have been brokered in these theaters.",
+    iran_notes_fa: "مرتبط با درگیری‌های نیابتی منطقه‌ای با مشارکت بازیگران ایرانی (یمن، سوریه). در این عرصه‌ها توقف‌هایی میانجیگری شده است."
+  },
+  {
+    id: "women_peacebuilding",
+    title_en: "Women in Peace Processes",
+    title_fa: "زنان در فرآیندهای صلح",
+    actor: "organization",
+    method: "civic",
+    target: "dual",
+    description_en: "Formally including women and marginalized voices in mediation, negotiations, and post-conflict governance — increases durability of peace agreements.",
+    description_fa: "گنجاندن رسمی زنان و صداهای به‌حاشیه‌رانده‌شده در میانجیگری، مذاکرات و حاکمیت پس از درگیری — پایداری توافقنامه‌های صلح را افزایش می‌دهد.",
+    speed: "slow",
+    scalability: 3,
+    risk: 1,
+    reversibility: 4,
+    institutional_reliance: 2,
+    tech_usage: 2,
+    cultural_adaptability: 3,
+    resources: 2,
+    iran_relevance: 5,
+    iran_notes_en: "Highly relevant: Iranian women's rights movement is central to domestic political change and has international resonance.",
+    iran_notes_fa: "بسیار مرتبط: جنبش حقوق زنان ایران محور تغییر سیاسی داخلی است و در سطح بین‌المللی طنین‌انداز است."
+  },
+  {
+    id: "ceasefire",
+    title_en: "Ceasefire Agreements",
+    title_fa: "توافقنامه‌های آتش‌بس",
+    actor: "state",
+    method: "diplomatic",
+    target: "international",
+    description_en: "Formal agreements between warring parties to halt armed hostilities, often brokered by third parties and framed under international law.",
+    description_fa: "توافقنامه‌های رسمی بین طرف‌های درگیر برای توقف خصومت‌های مسلحانه، که اغلب توسط طرف‌های ثالث میانجیگری می‌شود و تحت چارچوب حقوق بین‌الملل قرار می‌گیرد.",
+    speed: "medium",
+    scalability: 4,
+    risk: 2,
+    reversibility: 2,
+    institutional_reliance: 4,
+    tech_usage: 2,
+    cultural_adaptability: 2,
+    resources: 4,
+    iran_relevance: 3,
+    iran_notes_en: "Iran as regional actor has been involved in proxy ceasefires (Yemen, Lebanon). Formal negotiations with Iran itself require multilateral frameworks.",
+    iran_notes_fa: "ایران به‌عنوان بازیگر منطقه‌ای در آتش‌بس‌های نیابتی (یمن، لبنان) دخیل بوده است. مذاکرات رسمی با خود ایران به چارچوب‌های چندجانبه نیاز دارد."
+  },
+  {
+    id: "education_reform",
+    title_en: "Education Reform",
+    title_fa: "اصلاح آموزش",
+    actor: "state",
+    method: "civic",
+    target: "domestic",
+    description_en: "Reforming curricula to promote inclusive citizenship, critical thinking, and shared history — addressing the root causes of polarization.",
+    description_fa: "اصلاح برنامه درسی برای ترویج شهروندی فراگیر، تفکر انتقادی و تاریخ مشترک — پرداختن به ریشه‌های قطبی‌سازی.",
+    speed: "slow",
+    scalability: 5,
+    risk: 2,
+    reversibility: 2,
+    institutional_reliance: 5,
+    tech_usage: 2,
+    cultural_adaptability: 3,
+    resources: 4,
+    iran_relevance: 4,
+    iran_notes_en: "Education is heavily ideologically controlled in Iran. Reform would require systemic change but has massive long-term potential.",
+    iran_notes_fa: "آموزش در ایران به شدت از نظر ایدئولوژیکی کنترل می‌شود. اصلاح به تغییر سیستمی نیاز دارد اما پتانسیل بلندمدت عظیمی دارد."
+  },
+  {
+    id: "sanctions",
+    title_en: "Economic Sanctions",
+    title_fa: "تحریم‌های اقتصادی",
+    actor: "state",
+    method: "economic",
+    target: "international",
+    description_en: "Trade restrictions and financial penalties imposed on states to pressure behavioral change. Can cause severe humanitarian fallout and often strengthens hardline domestic narratives.",
+    description_fa: "محدودیت‌های تجاری و جریمه‌های مالی که بر دولت‌ها برای فشار به تغییر رفتار اعمال می‌شود. می‌تواند پیامدهای بشردوستانه جدی داشته باشد و اغلب روایت‌های داخلی تندروانه را تقویت می‌کند.",
+    speed: "medium",
+    scalability: 5,
+    risk: 3,
+    reversibility: 2,
+    institutional_reliance: 4,
+    tech_usage: 2,
+    cultural_adaptability: 1,
+    resources: 3,
+    iran_relevance: 5,
+    iran_notes_en: "Central to Iran's geopolitical situation. Evidence shows sanctions have strengthened hardline narratives, increased domestic economic hardship, and fueled the vicious cycle.",
+    iran_notes_fa: "محوری برای وضعیت ژئوپولیتیکی ایران. شواهد نشان می‌دهد تحریم‌ها روایت‌های تندروانه را تقویت کرده، سختی اقتصادی داخلی را افزایش داده و چرخه معیوب را تغذیه کرده است."
+  },
+  {
+    id: "nuclear_diplomacy",
+    title_en: "Nuclear / Track I Diplomacy",
+    title_fa: "دیپلماسی هسته‌ای / مسیر اول",
+    actor: "state",
+    method: "diplomatic",
+    target: "international",
+    description_en: "Formal government-to-government negotiations, often multilateral, aimed at legally binding agreements to reduce international tensions.",
+    description_fa: "مذاکرات رسمی دولت به دولت، اغلب چندجانبه، که هدف آن توافقنامه‌های الزام‌آور حقوقی برای کاهش تنش‌های بین‌المللی است.",
+    speed: "slow",
+    scalability: 4,
+    risk: 2,
+    reversibility: 2,
+    institutional_reliance: 5,
+    tech_usage: 3,
+    cultural_adaptability: 2,
+    resources: 5,
+    iran_relevance: 5,
+    iran_notes_en: "The JCPOA and its aftermath are paradigmatic. Track I agreements with Iran are both crucial and fragile — easily undermined by domestic politics in all parties.",
+    iran_notes_fa: "برجام و پیامدهای آن نمونه‌ای آموزنده است. توافقنامه‌های مسیر اول با ایران هم حیاتی و هم شکننده هستند — و به‌راحتی توسط سیاست‌های داخلی همه طرف‌ها زیر سؤال می‌رود."
+  },
+  {
+    id: "un_resolutions",
+    title_en: "UN Security Council Resolutions",
+    title_fa: "قطعنامه‌های شورای امنیت سازمان ملل",
+    actor: "international",
+    method: "diplomatic",
+    target: "international",
+    description_en: "Binding or non-binding resolutions calling for restraint, ceasefires, or compliance with international humanitarian law — carry international legal legitimacy.",
+    description_fa: "قطعنامه‌های الزام‌آور یا غیرالزام‌آور که خواستار خویشتنداری، آتش‌بس یا رعایت حقوق بشردوستانه بین‌المللی هستند — از مشروعیت حقوقی بین‌المللی برخوردارند.",
+    speed: "medium",
+    scalability: 5,
+    risk: 2,
+    reversibility: 3,
+    institutional_reliance: 5,
+    tech_usage: 2,
+    cultural_adaptability: 2,
+    resources: 4,
+    iran_relevance: 4,
+    iran_notes_en: "Multiple UN resolutions have addressed Iran's nuclear program, regional role, and human rights. Compliance is contested but normative pressure is real.",
+    iran_notes_fa: "قطعنامه‌های متعدد سازمان ملل برنامه هسته‌ای، نقش منطقه‌ای و حقوق بشر ایران را مورد توجه قرار داده‌اند. رعایت آنها مورد اختلاف است اما فشار هنجاری واقعی است."
+  },
+  {
+    id: "peacekeeping",
+    title_en: "UN Peacekeeping Missions",
+    title_fa: "مأموریت‌های حفظ صلح سازمان ملل",
+    actor: "international",
+    method: "mitigation",
+    target: "international",
+    description_en: "Deployment of multinational forces to monitor ceasefires, protect civilians, and create conditions for political solutions.",
+    description_fa: "استقرار نیروهای چندملیتی برای نظارت بر آتش‌بس‌ها، حمایت از غیرنظامیان و ایجاد شرایط برای راه‌حل‌های سیاسی.",
+    speed: "medium",
+    scalability: 3,
+    risk: 2,
+    reversibility: 3,
+    institutional_reliance: 5,
+    tech_usage: 3,
+    cultural_adaptability: 2,
+    resources: 5,
+    iran_relevance: 2,
+    iran_notes_en: "Not directly applicable to Iran's domestic situation but relevant to regional conflicts involving Iranian proxies.",
+    iran_notes_fa: "برای وضعیت داخلی ایران مستقیماً قابل اجرا نیست اما برای درگیری‌های منطقه‌ای با مشارکت نیروهای نیابتی ایران مرتبط است."
+  },
+  {
+    id: "climate_cooperation",
+    title_en: "Climate Cooperation Initiatives",
+    title_fa: "ابتکارات همکاری اقلیمی",
+    actor: "international",
+    method: "economic",
+    target: "dual",
+    description_en: "Joint transboundary commissions and climate adaptation projects that force adversaries to cooperate on shared resource management, building interdependence.",
+    description_fa: "کمیسیون‌های مشترک فرامرزی و پروژه‌های سازگاری اقلیمی که رقبا را مجبور می‌کند در مدیریت منابع مشترک همکاری کنند و وابستگی متقابل ایجاد کنند.",
+    speed: "slow",
+    scalability: 4,
+    risk: 1,
+    reversibility: 3,
+    institutional_reliance: 3,
+    tech_usage: 3,
+    cultural_adaptability: 4,
+    resources: 4,
+    iran_relevance: 4,
+    iran_notes_en: "Iran faces severe water scarcity and desertification. Shared water management with neighbors could serve as a dual-purpose de-escalation platform.",
+    iran_notes_fa: "ایران با کمبود شدید آب و بیابانی شدن مواجه است. مدیریت مشترک آب با همسایگان می‌تواند به‌عنوان یک پلتفرم کاهش تنش با هدف دوگانه عمل کند."
+  },
+  {
+    id: "algorithmic_trust",
+    title_en: "Algorithmic Trust Repair",
+    title_fa: "ترمیم اعتماد الگوریتمی",
+    actor: "private",
+    method: "technological",
+    target: "domestic",
+    description_en: "Redesigning platform algorithms to surface cross-cutting, credible information and connect users with moderate perspectives — countering epistemic polarization.",
+    description_fa: "طراحی مجدد الگوریتم‌های پلتفرم برای نمایش اطلاعات متقاطع و معتبر و ارتباط دادن کاربران با دیدگاه‌های معتدل — مقابله با قطبی‌سازی معرفتی.",
+    speed: "medium",
+    scalability: 5,
+    risk: 1,
+    reversibility: 4,
+    institutional_reliance: 2,
+    tech_usage: 5,
+    cultural_adaptability: 3,
+    resources: 4,
+    iran_relevance: 3,
+    iran_notes_en: "Highly relevant globally; in Iran specifically limited by internet censorship, but diaspora social media ecosystems are important terrain.",
+    iran_notes_fa: "در سطح جهانی بسیار مرتبط؛ در ایران به طور خاص توسط سانسور اینترنت محدود شده، اما اکوسیستم‌های رسانه اجتماعی دیاسپورا زمینه مهمی هستند."
+  },
+  {
+    id: "corporate_peace",
+    title_en: "Corporate Peace Dividend",
+    title_fa: "سود صلح شرکتی",
+    actor: "private",
+    method: "economic",
+    target: "dual",
+    description_en: "Framework linking corporate compensation or CSR budgets to measurable social cohesion metrics, turning profit motives into peacebuilding incentives.",
+    description_fa: "چارچوبی که جبران خسارت شرکت‌ها یا بودجه‌های مسئولیت اجتماعی را به معیارهای قابل اندازه‌گیری انسجام اجتماعی مرتبط می‌کند و انگیزه‌های سودمحور را به مشوق‌های صلح‌سازی تبدیل می‌کند.",
+    speed: "slow",
+    scalability: 4,
+    risk: 2,
+    reversibility: 3,
+    institutional_reliance: 3,
+    tech_usage: 3,
+    cultural_adaptability: 2,
+    resources: 3,
+    iran_relevance: 2,
+    iran_notes_en: "Limited applicability in Iran's current economic isolation, but relevant for international companies considering re-engagement post-sanctions.",
+    iran_notes_fa: "قابلیت اجرای محدود در انزوای اقتصادی فعلی ایران، اما برای شرکت‌های بین‌المللی که درگیری مجدد پس از تحریم را در نظر می‌گیرند مرتبط است."
+  },
+  {
+    id: "confidence_building",
+    title_en: "Confidence-Building Measures",
+    title_fa: "اقدامات اعتمادسازی",
+    actor: "state",
+    method: "mitigation",
+    target: "dual",
+    description_en: "Gradual, verifiable steps to reduce military suspicion: prisoner exchanges, hotlines, mutual inspections. Build trust incrementally toward larger agreements.",
+    description_fa: "گام‌های تدریجی و قابل تأیید برای کاهش سوءظن نظامی: تبادل اسرا، خطوط ارتباطی مستقیم، بازرسی‌های متقابل. اعتماد را به تدریج به سمت توافقنامه‌های بزرگ‌تر می‌سازد.",
+    speed: "medium",
+    scalability: 3,
+    risk: 2,
+    reversibility: 3,
+    institutional_reliance: 4,
+    tech_usage: 2,
+    cultural_adaptability: 3,
+    resources: 3,
+    iran_relevance: 4,
+    iran_notes_en: "Prisoner exchanges between Iran and the US have been used as CBMs. These small steps have at times created openings for larger diplomatic progress.",
+    iran_notes_fa: "تبادل زندانیان بین ایران و آمریکا به‌عنوان اقدامات اعتمادسازی استفاده شده است. این گام‌های کوچک گاهی فرصت‌هایی برای پیشرفت دیپلماتیک بزرگ‌تر ایجاد کرده‌اند."
+  },
+  {
+    id: "reverse_sanctions",
+    title_en: "Reverse Sanctions (Incentive Diplomacy)",
+    title_fa: "تحریم معکوس (دیپلماسی مشوق)",
+    actor: "state",
+    method: "economic",
+    target: "dual",
+    description_en: "Offering rewards — lifting restrictions, humanitarian aid, fast-track investment — to parties demonstrating de-escalatory behavior. Shifts from punishment to positive reinforcement.",
+    description_fa: "ارائه پاداش — رفع محدودیت‌ها، کمک‌های بشردوستانه، سرمایه‌گذاری تسریع‌شده — به طرف‌هایی که رفتار کاهش تنش نشان می‌دهند. از تنبیه به تقویت مثبت تغییر می‌کند.",
+    speed: "medium",
+    scalability: 4,
+    risk: 2,
+    reversibility: 3,
+    institutional_reliance: 4,
+    tech_usage: 2,
+    cultural_adaptability: 3,
+    resources: 4,
+    iran_relevance: 5,
+    iran_notes_en: "Highly relevant for Iran: the JCPOA model attempted this logic. Evidence suggests positive incentives are more effective than punitive sanctions alone.",
+    iran_notes_fa: "برای ایران بسیار مرتبط: مدل برجام این منطق را آزمایش کرد. شواهد نشان می‌دهد مشوق‌های مثبت مؤثرتر از تحریم‌های تنبیهی به‌تنهایی هستند."
+  },
+  {
+    id: "citizen_participation",
+    title_en: "Digital Citizen Participation",
+    title_fa: "مشارکت دیجیتال شهروندی",
+    actor: "organization",
+    method: "technological",
+    target: "domestic",
+    description_en: "Using digital platforms for participatory policymaking, online deliberation, and direct citizen engagement with governance — reducing alienation.",
+    description_fa: "استفاده از پلتفرم‌های دیجیتال برای سیاست‌گذاری مشارکتی، مداوای آنلاین و مشارکت مستقیم شهروندان با حاکمیت — کاهش بیگانگی.",
+    speed: "medium",
+    scalability: 4,
+    risk: 2,
+    reversibility: 3,
+    institutional_reliance: 3,
+    tech_usage: 5,
+    cultural_adaptability: 3,
+    resources: 2,
+    iran_relevance: 3,
+    iran_notes_en: "Constrained in Iran by internet censorship. But diaspora platforms and encrypted channels have created parallel participatory spaces.",
+    iran_notes_fa: "در ایران توسط سانسور اینترنت محدود شده است. اما پلتفرم‌های دیاسپورا و کانال‌های رمزگذاری‌شده فضاهای مشارکتی موازی ایجاد کرده‌اند."
+  },
+  {
+    id: "threat_resilience",
+    title_en: "Threat-Agnostic Resilience Infrastructure",
+    title_fa: "زیرساخت تاب‌آوری فارغ از تهدید",
+    actor: "international",
+    method: "economic",
+    target: "domestic",
+    description_en: "Designing hospitals, schools, and communication networks to remain functional across both war and climate disasters — creating shared survival incentives that cool conflict.",
+    description_fa: "طراحی بیمارستان‌ها، مدارس و شبکه‌های ارتباطی برای حفظ عملکرد در هر دو جنگ و بلایای اقلیمی — ایجاد انگیزه‌های بقای مشترک که تنش را کاهش می‌دهد.",
+    speed: "slow",
+    scalability: 3,
+    risk: 1,
+    reversibility: 2,
+    institutional_reliance: 4,
+    tech_usage: 3,
+    cultural_adaptability: 4,
+    resources: 5,
+    iran_relevance: 3,
+    iran_notes_en: "Iran faces overlapping climate and political risks. Resilient infrastructure projects could serve as neutral cooperation ground.",
+    iran_notes_fa: "ایران با خطرات همپوشان اقلیمی و سیاسی روبرو است. پروژه‌های زیرساخت تاب‌آور می‌توانند به‌عنوان زمینه همکاری خنثی عمل کنند."
+  }
+];
+
+// ============================
+// STATE
+// ============================
+let state = {
+  lang: 'en',
+  iranMode: false,
+  selectedAction: null,
+  filters: {
+    target: ['domestic', 'international', 'dual'],
+    speed: ['fast', 'medium', 'slow'],
+    maxRisk: 3,
+    actor: ['individual', 'organization', 'state', 'international', 'private'],
+    loopStage: null
+  }
+};
+
+// ============================
+// TRANSLATIONS
+// ============================
+const T = {
+  en: {
+    mainTitle: "De-escalation Landscape Explorer",
+    subTitle: "A taxonomy of interventions in interlocking crises",
+    iranLabel: "Iran Context",
+    filterTarget: "TARGET",
+    filterSpeed: "SPEED",
+    filterRisk: "MAX RISK",
+    filterActor: "ACTOR",
+    riskLow: "Low",
+    riskHigh: "High",
+    resetBtn: "↺ Reset Filters",
+    filterBtnLabel: "Filters",
+    loopBarLabel: "CRISIS CYCLE →",
+    gridStats: (shown, total) => `Showing <span>${shown}</span> of ${total} actions`,
+    legendTitle: "Color = Target",
+    legendDomestic: "Domestic",
+    legendIntl: "International",
+    legendDual: "Dual",
+    drawerDesc: "Description",
+    drawerIran: "Iran Context",
+    drawerTradeoffs: "Trade-offs",
+    drawerSpeed: "Speed",
+    drawerRisk: "Risk",
+    drawerScalability: "Scalability",
+    drawerReversibility: "Reversibility",
+    drawerResources: "Resources",
+    drawerCultural: "Cultural Fit",
+    speedFast: "Fast",
+    speedMedium: "Medium",
+    speedSlow: "Slow",
+    riskHigh3: "High",
+    riskMed2: "Medium",
+    riskLow1: "Low",
+    actorIndividual: "Individual",
+    actorOrg: "Organization",
+    actorState: "State",
+    actorIntl: "Int'l Body",
+    actorPrivate: "Private Sector",
+    methodDiplom: "Diplomatic",
+    methodMitigation: "Mitigation",
+    methodCivic: "Civic",
+    methodEcon: "Economic",
+    methodTech: "Technological",
+    loopNodes: [
+      { id: "polarization", label: "Domestic Polarization", tooltip: "Internal ideological fractures that weaken governance and enable escalatory narratives." },
+      { id: "governance", label: "Governance Weakness", tooltip: "State incapacity makes coherent foreign and domestic policy nearly impossible." },
+      { id: "external", label: "External Pressure", tooltip: "Sanctions, threats, and geopolitical tensions fuel hardline domestic narratives." },
+      { id: "conflict", label: "International Conflict", tooltip: "Armed conflict and proxy wars spill over into domestic politics, deepening divides." }
+    ],
+    iranBadge: "⬥ Iran Relevant",
+    iranHighBadge: "⬥ High Impact in Iran",
+    iranRiskBadge: "⚠ High Risk in Iran",
+    emptyCell: "—"
+  },
+  fa: {
+    mainTitle: "کاوشگر چشم‌انداز کاهش تنش",
+    subTitle: "طبقه‌بندی مداخلات در بحران‌های به‌هم‌تنیده",
+    iranLabel: "زمینه ایران",
+    filterTarget: "هدف",
+    filterSpeed: "سرعت",
+    filterRisk: "حداکثر ریسک",
+    filterActor: "بازیگر",
+    riskLow: "کم",
+    riskHigh: "زیاد",
+    resetBtn: "↺ بازنشانی فیلترها",
+    filterBtnLabel: "فیلترها",
+    loopBarLabel: "← چرخه بحران",
+    gridStats: (shown, total) => `نمایش <span>${shown}</span> از ${total} اقدام`,
+    legendTitle: "رنگ = هدف",
+    legendDomestic: "داخلی",
+    legendIntl: "بین‌المللی",
+    legendDual: "دوگانه",
+    drawerDesc: "توضیحات",
+    drawerIran: "زمینه ایران",
+    drawerTradeoffs: "مبادلات",
+    drawerSpeed: "سرعت",
+    drawerRisk: "ریسک",
+    drawerScalability: "مقیاس‌پذیری",
+    drawerReversibility: "برگشت‌پذیری",
+    drawerResources: "منابع",
+    drawerCultural: "تناسب فرهنگی",
+    speedFast: "سریع",
+    speedMedium: "متوسط",
+    speedSlow: "کند",
+    riskHigh3: "زیاد",
+    riskMed2: "متوسط",
+    riskLow1: "کم",
+    actorIndividual: "فرد",
+    actorOrg: "سازمان",
+    actorState: "دولت",
+    actorIntl: "نهاد بین‌المللی",
+    actorPrivate: "بخش خصوصی",
+    methodDiplom: "دیپلماتیک",
+    methodMitigation: "کاهش تنش",
+    methodCivic: "مدنی",
+    methodEcon: "اقتصادی",
+    methodTech: "تکنولوژیک",
+    loopNodes: [
+      { id: "polarization", label: "قطبی‌سازی داخلی", tooltip: "شکاف‌های ایدئولوژیک داخلی که حاکمیت را تضعیف می‌کند و روایت‌های تصعیدی را ممکن می‌سازد." },
+      { id: "governance", label: "ضعف حاکمیت", tooltip: "ناتوانی دولت سیاست خارجی و داخلی منسجم را تقریباً غیرممکن می‌کند." },
+      { id: "external", label: "فشار خارجی", tooltip: "تحریم‌ها، تهدیدها و تنش‌های ژئوپولیتیکی روایت‌های داخلی تندروانه را تغذیه می‌کنند." },
+      { id: "conflict", label: "درگیری بین‌المللی", tooltip: "درگیری مسلحانه و جنگ‌های نیابتی به سیاست‌های داخلی سرریز می‌شود و شکاف‌ها را عمیق‌تر می‌کند." }
+    ],
+    iranBadge: "⬥ مرتبط با ایران",
+    iranHighBadge: "⬥ تأثیر زیاد در ایران",
+    iranRiskBadge: "⚠ ریسک بالا در ایران",
+    emptyCell: "—"
+  }
+};
+
+const ACTORS = ['individual','organization','state','international','private'];
+const METHODS = ['diplomatic','mitigation','civic','economic','technological'];
+
+const LOOP_STAGE_ACTIONS = {
+  polarization: ['dialogue_circles','media_literacy','digital_activism','education_reform','algorithmic_trust','citizen_participation','women_peacebuilding'],
+  governance: ['education_reform','peace_infrastructure','confidence_building','reverse_sanctions','threat_resilience'],
+  external: ['sanctions','reverse_sanctions','nuclear_diplomacy','track2_diplomacy','un_resolutions','confidence_building'],
+  conflict: ['ceasefire','humanitarian_pause','peacekeeping','un_resolutions','climate_cooperation','track2_diplomacy']
+};
+
+// ============================
+// LANG & IRAN HELPERS
+// ============================
+function t(key, ...args) {
+  const entry = T[state.lang][key];
+  return typeof entry === 'function' ? entry(...args) : entry;
+}
+
+function actionTitle(a) { return state.lang === 'fa' ? a.title_fa : a.title_en; }
+function actionDesc(a) { return state.lang === 'fa' ? a.description_fa : a.description_en; }
+function actionIranNote(a) { return state.lang === 'fa' ? a.iran_notes_fa : a.iran_notes_en; }
+
+function actorLabel(a) {
+  const map = { individual: 'actorIndividual', organization: 'actorOrg', state: 'actorState', international: 'actorIntl', private: 'actorPrivate' };
+  return t(map[a]);
+}
+
+function methodLabel(m) {
+  const map = { diplomatic: 'methodDiplom', mitigation: 'methodMitigation', civic: 'methodCivic', economic: 'methodEcon', technological: 'methodTech' };
+  return t(map[m]);
+}
+
+function speedLabel(s) {
+  return t({ fast: 'speedFast', medium: 'speedMedium', slow: 'speedSlow' }[s]);
+}
+
+function riskLabel(r) {
+  return t({ 1: 'riskLow1', 2: 'riskMed2', 3: 'riskHigh3' }[r]);
+}
+
+// ============================
+// FILTER LOGIC
+// ============================
+function filteredActions() {
+  return ACTIONS.filter(a => {
+    if (!state.filters.target.includes(a.target)) return false;
+    if (!state.filters.speed.includes(a.speed)) return false;
+    if (a.risk > state.filters.maxRisk) return false;
+    if (!state.filters.actor.includes(a.actor)) return false;
+    if (state.filters.loopStage) {
+      const relevant = LOOP_STAGE_ACTIONS[state.filters.loopStage] || [];
+      if (!relevant.includes(a.id)) return false;
+    }
+    return true;
+  });
+}
+
+// ============================
+// RENDER GRID
+// ============================
+function renderGrid() {
+  const visible = filteredActions();
+  const allIds = new Set(visible.map(a => a.id));
+
+  // Stats
+  document.getElementById('grid-stats').innerHTML = t('gridStats', visible.length, ACTIONS.length);
+
+  // Legend
+  const leg = document.getElementById('legend');
+  leg.innerHTML = `
+    <div class="legend-item"><div class="legend-dot" style="background:var(--domestic)"></div>${t('legendDomestic')}</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--international)"></div>${t('legendIntl')}</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--dual)"></div>${t('legendDual')}</div>
+  `;
+
+  const table = document.getElementById('action-grid');
+  let html = '<thead><tr><th class="row-header"></th>';
+  METHODS.forEach(m => { html += `<th>${methodLabel(m)}</th>`; });
+  html += '</tr></thead><tbody>';
+
+  ACTORS.forEach(actor => {
+    html += `<tr><td class="actor-label">${actorLabel(actor)}</td>`;
+    METHODS.forEach(method => {
+      const cells = ACTIONS.filter(a => a.actor === actor && a.method === method);
+      if (cells.length === 0) {
+        html += `<td class="cell empty"><div class="empty-cell">${t('emptyCell')}</div></td>`;
+        return;
+      }
+      html += `<td class="cell">`;
+      cells.forEach((a, i) => {
+        const isVisible = allIds.has(a.id);
+        const iranClass = state.iranMode
+          ? (a.iran_relevance >= 4 ? 'iran-highlight' : 'iran-dim')
+          : '';
+        const selectedClass = state.selectedAction === a.id ? 'selected' : '';
+        const dimClass = !isVisible ? 'iran-dim' : '';
+        const speedBadge = `<span class="badge speed-${a.speed}">${speedLabel(a.speed)}</span>`;
+        const riskBadge = `<span class="badge risk-${a.risk}">${riskLabel(a.risk)}</span>`;
+        const iranBadge = (state.iranMode && a.iran_relevance >= 4)
+          ? `<span class="badge iran">Iran</span>` : '';
+        html += `<div 
+          class="action-node target-${a.target} ${iranClass} ${selectedClass} ${dimClass}"
+          onclick="selectAction('${a.id}')"
+          onmouseenter="showTooltip(event,'${a.id}')"
+          onmouseleave="hideTooltip()"
+          style="animation-delay:${i * 40}ms"
+        >
+          <div class="node-title">${actionTitle(a)}</div>
+          <div class="node-badges">${speedBadge}${riskBadge}${iranBadge}</div>
+        </div>`;
+      });
+      html += `</td>`;
+    });
+    html += '</tr>';
+  });
+
+  html += '</tbody>';
+  table.innerHTML = html;
+}
+
+// ============================
+// RENDER FILTERS
+// ============================
+function renderFilters() {
+  // Target chips
+  const targetEl = document.getElementById('filter-target');
+  targetEl.innerHTML = ['domestic','international','dual'].map(v => {
+    const active = state.filters.target.includes(v) ? 'active' : '';
+    const label = t({ domestic: 'legendDomestic', international: 'legendIntl', dual: 'legendDual' }[v]);
+    return `<div class="chip target-${v} ${active}" onclick="toggleFilter('target','${v}')">${label}</div>`;
+  }).join('');
+
+  // Speed chips
+  const speedEl = document.getElementById('filter-speed');
+  speedEl.innerHTML = ['fast','medium','slow'].map(v => {
+    const active = state.filters.speed.includes(v) ? 'active' : '';
+    return `<div class="chip speed-${v} ${active}" onclick="toggleFilter('speed','${v}')">${speedLabel(v)}</div>`;
+  }).join('');
+
+  // Actor chips
+  const actorEl = document.getElementById('filter-actor');
+  actorEl.innerHTML = ACTORS.map(v => {
+    const active = state.filters.actor.includes(v) ? 'active' : '';
+    return `<div class="chip active-actor ${active}" onclick="toggleFilter('actor','${v}')">${actorLabel(v)}</div>`;
+  }).join('');
+
+  document.getElementById('risk-slider').value = state.filters.maxRisk;
+  document.getElementById('filter-target-label').textContent = t('filterTarget');
+  document.getElementById('filter-speed-label').textContent = t('filterSpeed');
+  document.getElementById('filter-risk-label').textContent = t('filterRisk');
+  document.getElementById('filter-actor-label').textContent = t('filterActor');
+  document.getElementById('risk-low-label').textContent = t('riskLow');
+  document.getElementById('risk-high-label').textContent = t('riskHigh');
+  document.getElementById('reset-btn').textContent = t('resetBtn');
+  document.getElementById('filter-btn-label').textContent = t('filterBtnLabel');
+}
+
+// ============================
+// RENDER LOOP BAR
+// ============================
+function renderLoopBar() {
+  document.getElementById('loop-bar-label').textContent = t('loopBarLabel');
+  const loopNodes = t('loopNodes');
+  const el = document.getElementById('loop-nodes');
+  let html = '';
+  loopNodes.forEach((node, i) => {
+    const active = state.filters.loopStage === node.id ? 'active' : '';
+    html += `<div class="loop-node ${active}" onclick="toggleLoopStage('${node.id}')" title="${node.tooltip}">
+      <div class="loop-dot"></div>
+      ${node.label}
+    </div>`;
+    if (i < loopNodes.length - 1) html += `<div class="loop-arrow">→</div>`;
+  });
+  html += `<div class="loop-arrow" style="color:var(--accent-gold)">↺</div>`;
+  el.innerHTML = html;
+}
+
+// ============================
+// RENDER HEADER TEXT
+// ============================
+function renderHeaderText() {
+  document.getElementById('main-title').textContent = t('mainTitle');
+  document.getElementById('sub-title').textContent = t('subTitle');
+  document.getElementById('iran-label').textContent = t('iranLabel');
+}
+
+// ============================
+// DRAWER
+// ============================
+function selectAction(id) {
+  state.selectedAction = state.selectedAction === id ? null : id;
+  if (state.selectedAction) openDrawer(id);
+  else closeDrawer();
+  renderGrid();
+}
+
+function openDrawer(id) {
+  const a = ACTIONS.find(x => x.id === id);
+  if (!a) return;
+
+  const bars = [
+    { label: t('drawerSpeed'), val: a.speed === 'fast' ? 5 : a.speed === 'medium' ? 3 : 1, max: 5, cls: 'green' },
+    { label: t('drawerRisk'), val: a.risk, max: 3, cls: 'red' },
+    { label: t('drawerScalability'), val: a.scalability, max: 5, cls: 'blue' },
+    { label: t('drawerReversibility'), val: a.reversibility, max: 5, cls: 'gold' },
+    { label: t('drawerResources'), val: 6 - a.resources, max: 5, cls: 'purple' },
+    { label: t('drawerCultural'), val: a.cultural_adaptability, max: 5, cls: 'green' }
+  ];
+
+  const iranRelevanceBadge = a.iran_relevance >= 4
+    ? `<span class="badge iran">${a.iran_relevance === 5 ? t('iranHighBadge') : t('iranBadge')}</span>`
+    : '';
+
+  const targetColor = { domestic: 'var(--domestic)', international: 'var(--international)', dual: 'var(--dual)' }[a.target];
+  const targetName = t({ domestic: 'legendDomestic', international: 'legendIntl', dual: 'legendDual' }[a.target]);
+
+  document.getElementById('drawer-content').innerHTML = `
+    <div class="drawer-section">
+      <div class="drawer-title">${actionTitle(a)}</div>
+      <div class="drawer-meta">
+        <span class="badge" style="background:rgba(255,255,255,0.08);color:var(--text-secondary)">${actorLabel(a.actor)}</span>
+        <span class="badge" style="background:rgba(255,255,255,0.08);color:var(--text-secondary)">${methodLabel(a.method)}</span>
+        <span class="badge" style="background:${targetColor}22;color:${targetColor}">${targetName}</span>
+        <span class="badge speed-${a.speed}">${speedLabel(a.speed)}</span>
+        <span class="badge risk-${a.risk}">${riskLabel(a.risk)}</span>
+        ${iranRelevanceBadge}
+      </div>
+    </div>
+    <div class="drawer-section">
+      <h3>${t('drawerDesc')}</h3>
+      <div class="drawer-desc">${actionDesc(a)}</div>
+      ${state.iranMode || a.iran_relevance >= 4 ? `
+        <div style="margin-top:10px">
+          <h3>${t('drawerIran')}</h3>
+          <div class="iran-note">${actionIranNote(a)}</div>
+        </div>
+      ` : ''}
+    </div>
+    <div class="drawer-section">
+      <h3>${t('drawerTradeoffs')}</h3>
+      <div class="tradeoff-grid">
+        ${bars.map(b => `
+          <div class="tradeoff-row">
+            <div class="tradeoff-label">${b.label}</div>
+            <div class="tradeoff-bar">
+              <div class="tradeoff-fill ${b.cls}" style="width:${(b.val/b.max)*100}%"></div>
+            </div>
+            <div class="tradeoff-val">${b.val}/${b.max}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+
+  document.getElementById('drawer').classList.add('open');
+}
+
+function closeDrawer() {
+  document.getElementById('drawer').classList.remove('open');
+  state.selectedAction = null;
+  renderGrid();
+}
+
+// ============================
+// TOOLTIP
+// ============================
+function showTooltip(e, id) {
+  const a = ACTIONS.find(x => x.id === id);
+  if (!a) return;
+  const tt = document.getElementById('tooltip');
+  document.getElementById('tt-title').textContent = actionTitle(a);
+  document.getElementById('tt-desc').textContent = actionDesc(a).substring(0, 100) + '…';
+  const iranEl = document.getElementById('tt-iran');
+  if (a.iran_relevance >= 4) {
+    iranEl.innerHTML = `⬥ ${t('iranBadge')}`;
+    iranEl.style.display = 'flex';
+  } else {
+    iranEl.style.display = 'none';
+  }
+  positionTooltip(e);
+  tt.classList.add('visible');
+}
+
+function positionTooltip(e) {
+  const tt = document.getElementById('tooltip');
+  const x = e.clientX + 14;
+  const y = e.clientY - 10;
+  const maxX = window.innerWidth - 240;
+  const maxY = window.innerHeight - 120;
+  tt.style.left = Math.min(x, maxX) + 'px';
+  tt.style.top = Math.min(y, maxY) + 'px';
+}
+
+function hideTooltip() {
+  document.getElementById('tooltip').classList.remove('visible');
+}
+
+// ============================
+// FILTER CONTROLS
+// ============================
+function toggleFilter(type, value) {
+  const arr = state.filters[type];
+  const idx = arr.indexOf(value);
+  if (idx === -1) arr.push(value);
+  else if (arr.length > 1) arr.splice(idx, 1);
+  applyFilters();
+}
+
+function applyFilters() {
+  state.filters.maxRisk = parseInt(document.getElementById('risk-slider').value);
+  renderFilters();
+  renderGrid();
+}
+
+function resetFilters() {
+  state.filters = {
+    target: ['domestic', 'international', 'dual'],
+    speed: ['fast', 'medium', 'slow'],
+    maxRisk: 3,
+    actor: ['individual', 'organization', 'state', 'international', 'private'],
+    loopStage: null
+  };
+  renderFilters();
+  renderLoopBar();
+  renderGrid();
+}
+
+function toggleLoopStage(id) {
+  state.filters.loopStage = state.filters.loopStage === id ? null : id;
+  renderLoopBar();
+  renderGrid();
+}
+
+// ============================
+// LANGUAGE
+// ============================
+function setLang(lang) {
+  state.lang = lang;
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === 'fa' ? 'rtl' : 'ltr';
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  document.getElementById('btn-fa').classList.toggle('active', lang === 'fa');
+  renderAll();
+}
+
+// ============================
+// IRAN MODE
+// ============================
+function toggleIranMode() {
+  state.iranMode = !state.iranMode;
+  document.getElementById('iran-toggle-btn').classList.toggle('active', state.iranMode);
+  renderGrid();
+}
+
+// ============================
+// MOBILE SIDEBAR
+// ============================
+function toggleMobileSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  sidebar.classList.toggle('mobile-open');
+  overlay.classList.toggle('active');
+}
+
+// ============================
+// RENDER ALL
+// ============================
+function renderAll() {
+  renderHeaderText();
+  renderLoopBar();
+  renderFilters();
+  renderGrid();
+}
+
+// ============================
+// INIT
+// ============================
+renderAll();
+</script>
+</body>
+</html>
