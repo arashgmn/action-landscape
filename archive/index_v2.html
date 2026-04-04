@@ -41,10 +41,10 @@
   --risk-high:     #e8404a;
 
   /* iran highlight — teal/cyan accent */
-  --iran-accent:   #0a81ac; //#00c9b1;
-  --iran-bg:       rgba(10, 129, 172, .10); //rgba(0,201,177,0.10);
-  --iran-border:   rgba(10, 129, 172, .55); //rgba(0,201,177,0.55);
-  --iran-glow:     0 0 0 2px rgba(10, 129, 172, .35); //rgba(0,201,177,0.35);
+  --iran-accent:   #00c9b1;
+  --iran-bg:       rgba(0,201,177,0.10);
+  --iran-border:   rgba(0,201,177,0.55);
+  --iran-glow:     0 0 0 2px rgba(0,201,177,0.35);
 
   --font-display: 'Playfair Display', Georgia, serif;
   --font-body:    'DM Sans', sans-serif;
@@ -79,15 +79,10 @@ body.light {
   --risk-low:      #1a9e5a;
   --risk-medium:   #c07800;
   --risk-high:     #c0252e;
-  /* --iran-accent:   #007a6e;
+  --iran-accent:   #007a6e;
   --iran-bg:       rgba(0,122,110,0.08);
   --iran-border:   rgba(0,122,110,0.45);
-  --iran-glow:     0 0 0 2px rgba(0,122,110,0.28); */
-  --iran-accent:   #076485; //#00c9b1;
-  --iran-bg:       rgba(7, 100, 133, .10); //rgba(0,201,177,0.10);
-  --iran-border:   rgba(7, 100, 133, .55); //rgba(0,201,177,0.55);
-  --iran-glow:     0 0 0 2px rgba(7, 100, 133, .35); //rgba(0,201,177,0.35);
-
+  --iran-glow:     0 0 0 2px rgba(0,122,110,0.28);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -176,10 +171,6 @@ body[dir="rtl"] { font-family: var(--font-persian); }
   transition: all 0.2s; letter-spacing: 0.04em;
 }
 .lang-btn.active { background: var(--text-primary); color: var(--bg); }
-
-#btn-fa {
-  font-family: var(--font-persian), sans-serif;
-}
 
 /* theme toggle */
 .theme-btn {
@@ -576,11 +567,7 @@ body.light .action-node:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.10); }
 .action-node.iran-highlight::before { background: var(--iran-accent) !important; }
 
 /* FILTERED-OUT nodes just fade */
-.action-node.filtered-out { 
-  opacity: 0.18; 
-  filter: brightness(0.25) saturate(0.5); /* Lowered luminance and saturation */
-  pointer-events: none; 
-}
+.action-node.filtered-out { opacity: 0.18; pointer-events: none; }
 
 .node-title {
   font-size: 11px; font-weight: 600;
@@ -602,7 +589,7 @@ body.light .action-node:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.10); }
 .badge.rk-2 { background: rgba(240,165,0,0.18);  color: var(--risk-medium); }
 .badge.rk-3 { background: rgba(232,64,74,0.18);  color: var(--risk-high); }
 /* iran badge */
-.badge.iran-badge { background: var(--iran-bg); color: var(--iran-accent); border: 5px solid var(--iran-border); }
+.badge.iran-badge { background: var(--iran-bg); color: var(--iran-accent); border: 1px solid var(--iran-border); }
 
 /* ======================================================
    DETAIL DRAWER
@@ -1252,7 +1239,7 @@ const T = {
     speedLbl: "Speed", riskLbl: "Risk",
     scalLbl: "Scalability", revLbl: "Reversibility",
     resLbl: "Low resource use", cultLbl: "Cultural fit",
-    speedLabels: {fast:"Fast",medium:"Mid",slow:"Slow"},
+    speedLabels: {fast:"Fast",medium:"Medium",slow:"Slow"},
     riskLabels: {1:"Low",2:"Medium",3:"High"},
     actorLabels: {individual:"Individual",organization:"Organization",state:"State",international:"Int'l Body",private:"Private Sector"},
     methodLabels: {diplomatic:"Diplomatic",mitigation:"Mitigation",civic:"Civic / Social",economic:"Economic",technological:"Technological"},
@@ -1317,12 +1304,8 @@ const T = {
     m_paperLink: "خواندن مقاله چارچوب کامل",
     m_whyTitle: "چرا این چارچوب؟",
     m_whyText: "تجسم‌سازی‌های موجود از صلح‌سازی یا طبقه‌بندی را در یک نمودار ساده مسطح می‌کنند (وابستگی متقابل ابعاد را از دست می‌دهند) یا یک فلوچارت خطی ارائه می‌دهند (که علّیتی را نشان می‌دهد که شواهد از آن پشتیبانی نمی‌کنند). این کاوشگر از یک شبکه دوبعدی به عنوان پایه استفاده می‌کند — بازیگر × روش — و یک بعد سوم (هدف) را از طریق رنگ رمزگذاری می‌کند.",
-    m_axisTitle: "سه محور طبقه‌بندی",
-    m_axisContent: "اقدامات بر اساس سه بعد کلیدی ارزیابی می‌شوند: هدف (داخلی در مقابل بین‌المللی)، سرعت تأثیر (از سریع تا تدریجی) و ریسک سیاسی.",
+    m_axesTitle: "سه محور طبقه‌بندی",
     m_rubricTitle: "معیار مبادله: چگونه امتیازات محاسبه می‌شوند",
-    m_rubricIntro: "هر امتیاز (۱-۵) بر اساس شواهد تجربی و تحلیل‌های سیاست‌گذاری در منابع دانشگاهی تخصیص داده شده است:",
-    m_rubric_1: "تأثیر مستقیم بر ثبات میان‌مدت و بلندمدت.",
-    m_rubric_2: "قابلیت بازگشت‌پذیری و هزینه‌های سیاسی برای بازیگران درگیر.",m_rubricTitle: "معیار مبادله: چگونه امتیازات محاسبه می‌شوند",
     m_rubricIntro: "هر امتیاز (۱-۵ مگر در غیر این صورت ذکر شود) بر اساس بررسی شواهد در مقاله منبع تخصیص داده شده است:",
     m_sourcesTitle: "منابع دانشگاهی و سیاستی کلیدی",
     m_feedbackTitle: "حلقه بازخورد بحران",
@@ -1399,7 +1382,7 @@ function renderGrid(){
           onmouseleave="hideTip()"
           style="animation-delay:${i*35}ms">
           <div class="node-title">${aTitle(a)}</div>
-          <div class="node-badges">${spBadge}${rkBadge}</div>
+          <div class="node-badges">${spBadge}${rkBadge}${iranBadge}</div>
         </div>`;
       });
       html += `</td>`;
