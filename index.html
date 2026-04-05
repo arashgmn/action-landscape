@@ -2,8 +2,8 @@
 <html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>De-escalation Landscape Explorer | کاوشگر چشم‌انداز کاهش تنش</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Action Landscape Explorer | کاوشگر چشم‌انداز کنش</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Vazirmatn:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -26,31 +26,33 @@
   --scrollbar-thumb: #1e2330;
 
   /* target colours */
-  --domestic:      #4a90d9;
-  --international: #d95b4a;
-  --dual:          #9b6cd9;
+  --domestic:      rgb(105, 221, 149);
+  --international: rgb(149, 105, 221); 
+  --dual:          rgb(221, 150, 105);
+  --crisis:        rgb(255, 255, 255);
+  
 
   /* speed — cool teal → slate blue family */
-  --speed-fast:    #2ec4b6;
-  --speed-medium:  #5b8dee;
-  --speed-slow:    #7a8fa8;
+  --speed-fast:    rgb(14, 88, 185); /* #2ec4b6; */
+  --speed-medium:  rgb(73, 154, 226); /* #5b8dee; */
+  --speed-slow:    rgb(158, 208, 237); /* #7a8fa8; */
 
   /* risk — warm amber → crimson family */
-  --risk-low:      #34c77b;
+  --risk-low:      #00aa52;
   --risk-medium:   #f0a500;
-  --risk-high:     #e8404a;
+  --risk-high:     #d20916;
 
   /* iran highlight — teal/cyan accent */
   --iran-accent:   #0a81ac; //#00c9b1;
   --iran-bg:       rgba(10, 129, 172, .10); //rgba(0,201,177,0.10);
-  --iran-border:   rgba(10, 129, 172, .55); //rgba(0,201,177,0.55);
-  --iran-glow:     0 0 0 2px rgba(10, 129, 172, .35); //rgba(0,201,177,0.35);
+  --iran-border:   rgba(10, 129, 172, .8); //rgba(0,201,177,0.55);
+  --iran-glow:     0 0 0 3px rgba(10, 129, 172, .35); //rgba(0,201,177,0.35);
 
   --font-display: 'Playfair Display', Georgia, serif;
   --font-body:    'DM Sans', sans-serif;
   --font-persian: 'Vazirmatn', sans-serif;
   --radius:       8px;
-  --sidebar-width:270px;
+  --sidebar-width:300px;
   --drawer-height:400px;
 }
 
@@ -70,12 +72,16 @@ body.light {
   --scrollbar-bg:  #e8ecf4;
   --scrollbar-thumb: #c8cedf;
 
-  --domestic:      #2b6cb0;
-  --international: #c0392b;
-  --dual:          #7b4cb0;
-  --speed-fast:    #0d9488;
+  --domestic:      rgb(62, 170, 103);
+  --international: rgb(103, 53, 183); 
+  --dual:          rgb(163, 87, 39);
+  --crisis:        rgb(0,0,0);
+  /* --speed-fast:    #0d9488;
   --speed-medium:  #3b5fd4;
-  --speed-slow:    #5a7080;
+  --speed-slow:    #5a7080; */
+  --speed-fast:    rgb(5, 39, 83); /* #2ec4b6; */
+  --speed-medium:  rgb(34, 97, 153); /* #5b8dee; */
+  --speed-slow:    rgb(98, 152, 182); /* #7a8fa8; */
   --risk-low:      #1a9e5a;
   --risk-medium:   #c07800;
   --risk-high:     #c0252e;
@@ -83,10 +89,10 @@ body.light {
   --iran-bg:       rgba(0,122,110,0.08);
   --iran-border:   rgba(0,122,110,0.45);
   --iran-glow:     0 0 0 2px rgba(0,122,110,0.28); */
-  --iran-accent:   #076485; //#00c9b1;
-  --iran-bg:       rgba(7, 100, 133, .10); //rgba(0,201,177,0.10);
-  --iran-border:   rgba(7, 100, 133, .55); //rgba(0,201,177,0.55);
-  --iran-glow:     0 0 0 2px rgba(7, 100, 133, .35); //rgba(0,201,177,0.35);
+  --iran-accent:   #076485; 
+  --iran-bg:       rgba(7, 100, 133, .30); 
+  --iran-border:   rgba(7, 100, 133, .8);
+  --iran-glow:     0 0 0 3px rgba(7, 100, 133, .35); //rgba(0,201,177,0.35);
 
 }
 
@@ -122,7 +128,7 @@ body[dir="rtl"] { font-family: var(--font-persian); }
   position: sticky; top: 0; z-index: 100;
 }
 .header-inner {
-  max-width: 1600px; margin: 0 auto;
+  max-width: inherit; margin: 0 auto;
   display: flex; align-items: center;
   justify-content: space-between;
   height: 60px; gap: 12px;
@@ -380,12 +386,12 @@ body[dir="rtl"] { font-family: var(--font-persian); }
 }
 .loop-node:hover,
 .loop-node.active {
-  border-color: var(--dual); color: var(--dual);
+  border-color: var(--crisis); color: var(--crisis);
   background: rgba(155,108,217,0.08);
 }
 body.light .loop-node:hover,
 body.light .loop-node.active {
-  border-color: var(--dual); color: var(--dual);
+  border-color: var(--crisis); color: var(--crisis);
   background: rgba(123,76,176,0.07);
 }
 .loop-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
@@ -416,7 +422,7 @@ body.light .loop-node.active {
 
 .chip {
   background: var(--surface2);
-  border: 1px solid var(--border);
+  border: 1.5px solid var(--border);
   border-radius: 4px; padding: 3px 9px;
   font-size: 11px; cursor: pointer;
   transition: all 0.15s;
@@ -427,28 +433,28 @@ body.light .loop-node.active {
 .chip:hover { color: var(--text-primary); border-color: var(--border-strong); }
 /* active = coloured */
 .chip.active { opacity: 1; }
-.chip:not(.active) { opacity: 0.45; }
+.chip:not(.active) { opacity: 0.3; }
 
-.chip.target-domestic  { color: var(--domestic);      border-color: var(--domestic); }
+.chip.target-domestic  { color: var(--domestic); border-color: var(--domestic); }
 .chip.target-international { color: var(--international); border-color: var(--international); }
-.chip.target-dual      { color: var(--dual);           border-color: var(--dual); }
-.chip.target-domestic.active  { background: rgba(74,144,217,0.12); }
-.chip.target-international.active { background: rgba(217,91,74,0.12); }
-.chip.target-dual.active { background: rgba(155,108,217,0.12); }
+.chip.target-dual      { color: var(--dual); border-color: var(--dual); }
+.chip.target-domestic.active  { background: var(--domestic) opacity=.33; }
+.chip.target-international.active { background: var(--international) opacity=.33; }
+.chip.target-dual.active { background: var(--dual) opacity=.33;}
 
 .chip.speed-fast   { color: var(--speed-fast);   border-color: var(--speed-fast); }
 .chip.speed-medium { color: var(--speed-medium); border-color: var(--speed-medium); }
 .chip.speed-slow   { color: var(--speed-slow);   border-color: var(--speed-slow); }
-.chip.speed-fast.active   { background: rgba(46,196,182,0.12); }
-.chip.speed-medium.active { background: rgba(91,141,238,0.12); }
-.chip.speed-slow.active   { background: rgba(122,143,168,0.10); }
+.chip.speed-fast.active   { background: var(--speed-fast) opacity=.33; }
+.chip.speed-medium.active { background: var(--speed-medium) opacity=.33;}
+.chip.speed-slow.active   { background: var(--speed-slow) opacity=.33;}
 
 .chip.risk-1 { color: var(--risk-low);    border-color: var(--risk-low); }
 .chip.risk-2 { color: var(--risk-medium); border-color: var(--risk-medium); }
 .chip.risk-3 { color: var(--risk-high);   border-color: var(--risk-high); }
-.chip.risk-1.active { background: rgba(52,199,123,0.12); }
-.chip.risk-2.active { background: rgba(240,165,0,0.12); }
-.chip.risk-3.active { background: rgba(232,64,74,0.12); }
+.chip.risk-1.active { background: var(--risk-low) opacity: .33; }
+.chip.risk-2.active { background: var(--risk-medium) opacity: .33; }
+.chip.risk-3.active { background: var(--risk-high) opacity: .33; }
 
 .chip.actor-chip { color: var(--text-secondary); border-color: var(--border-strong); }
 .chip.actor-chip.active { color: var(--text-primary); background: var(--surface3); border-color: var(--border-strong); opacity: 1; }
@@ -505,7 +511,10 @@ input[type="range"]::-webkit-slider-thumb {
 
 .grid-wrapper { overflow-x: auto; }
 table.action-grid {
-  border-collapse: separate; border-spacing: 4px; min-width: 680px;
+  border-collapse: separate; 
+  border-spacing: 4px; 
+  /* min-width: 680px; */
+  width:-moz-available;
 }
 table.action-grid th {
   padding: 7px 10px; font-size: 10px; font-weight: 700;
@@ -548,17 +557,17 @@ table.action-grid td.cell.empty {
 }
 
 /* target colour */
-.action-node.target-domestic  { background: rgba(74,144,217,0.08);  border: 1px solid rgba(74,144,217,0.22); }
+.action-node.target-domestic  { background: rgba(105, 221, 149, 0.08); border: 1px solid rgba(105, 221, 149, 0.22); }
 .action-node.target-domestic::before  { background: var(--domestic); }
-.action-node.target-international { background: rgba(217,91,74,0.08); border: 1px solid rgba(217,91,74,0.22); }
+.action-node.target-international { background: rgba(149, 105, 221, 0.08); border: 1px solid rgba(149, 105, 221, 0.22); }
 .action-node.target-international::before { background: var(--international); }
-.action-node.target-dual  { background: rgba(155,108,217,0.08); border: 1px solid rgba(155,108,217,0.22); }
+.action-node.target-dual  { background: rgba(221, 150, 105, 0.08); border: 1px solid rgba(221, 150, 105, 0.22); }
 .action-node.target-dual::before  { background: var(--dual); }
 
 /* light-mode adjustments */
-body.light .action-node.target-domestic  { background: rgba(43,108,176,0.06);  border-color: rgba(43,108,176,0.25); }
-body.light .action-node.target-international { background: rgba(192,57,43,0.06); border-color: rgba(192,57,43,0.25); }
-body.light .action-node.target-dual  { background: rgba(123,76,176,0.06); border-color: rgba(123,76,176,0.25); }
+body.light .action-node.target-domestic  { background: rgba(62, 170, 103, 0.06);  border-color: rgba(62, 170, 103, 0.25); }
+body.light .action-node.target-international { background: rgba(103, 53, 183, 0.06); border-color: rgba(103, 53, 183, 0.25); }
+body.light .action-node.target-dual  { background: rgba(163, 87, 39, 0.06); border-color: rgba(163, 87, 39, 0.25); }
 
 .action-node:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(0,0,0,0.25); }
 body.light .action-node:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.10); }
@@ -569,16 +578,15 @@ body.light .action-node:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.10); }
 
 /* IRAN HIGHLIGHT */
 .action-node.iran-highlight {
-  background: var(--iran-bg) !important;
-  border-color: var(--iran-border) !important;
+  /* background: var(--iran-bg) !important;
+  border-color: var(--iran-border) !important; */
   box-shadow: var(--iran-glow) !important;
 }
-.action-node.iran-highlight::before { background: var(--iran-accent) !important; }
+/* .action-node.iran-highlight::before { background: var(--iran-accent) !important; } */
 
 /* FILTERED-OUT nodes just fade */
 .action-node.filtered-out { 
-  opacity: 0.18; 
-  filter: brightness(0.25) saturate(0.5); /* Lowered luminance and saturation */
+  filter: opacity(0.18); 
   pointer-events: none; 
 }
 
@@ -594,13 +602,15 @@ body.light .action-node:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.10); }
   letter-spacing: 0.04em; text-transform: uppercase;
 }
 /* speed badges */
-.badge.sp-fast   { background: rgba(46,196,182,0.18);  color: var(--speed-fast); }
-.badge.sp-medium { background: rgba(91,141,238,0.18);  color: var(--speed-medium); }
-.badge.sp-slow   { background: rgba(122,143,168,0.15); color: var(--speed-slow); }
+.badge.sp-fast   { background: rgba(14, 88, 185, .18); color: var(--speed-fast); }
+.badge.sp-medium { background: rgba(73, 154, 226, .18); color: var(--speed-medium); }
+.badge.sp-slow   { background: rgba(158, 208, 237, .18); color: var(--speed-slow); }
+
 /* risk badges */
 .badge.rk-1 { background: rgba(52,199,123,0.18); color: var(--risk-low); }
 .badge.rk-2 { background: rgba(240,165,0,0.18);  color: var(--risk-medium); }
 .badge.rk-3 { background: rgba(232,64,74,0.18);  color: var(--risk-high); }
+
 /* iran badge */
 .badge.iran-badge { background: var(--iran-bg); color: var(--iran-accent); border: 5px solid var(--iran-border); }
 
@@ -776,7 +786,7 @@ body.light .action-node:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.10); }
 <header id="header">
   <div class="header-inner">
     <div class="header-title">
-      <h1 id="main-title">De-escalation Landscape Explorer</h1>
+      <h1 id="main-title">Action Landscape Explorer</h1>
       <div class="header-subtitle" id="sub-title">Taxonomy of interventions in interlocking crises</div>
     </div>
     <div class="header-controls">
@@ -1233,8 +1243,8 @@ const LOOP_STAGE_ACTIONS = {
    ===================================================== */
 const T = {
   en: {
-    mainTitle: "De-escalation Landscape Explorer",
-    subTitle: "Taxonomy of interventions in interlocking crises",
+    mainTitle: "Action Landscape Explorer",
+    subTitle: "Taxonomy of actions during interlocking crises",
     iranLabel: "Iran Context",
     filterBtnLabel: "Filters",
     lbl_target: "TARGET", lbl_speed: "SPEED",
@@ -1280,8 +1290,8 @@ const T = {
     m_feedbackLoop: "Domestic Polarisation → Governance Weakness → External Pressure → International Conflict → (reinforces) Domestic Polarisation"
   },
   fa: {
-    mainTitle: "کاوشگر چشم‌انداز کاهش تنش",
-    subTitle: "طبقه‌بندی مداخلات در بحران‌های به‌هم‌تنیده",
+    mainTitle: "کاوشگر چشم‌انداز کنش",
+    subTitle: "طبقه‌بندی انواع کنش‌ها در بحران‌های به‌هم‌تنیده",
     iranLabel: "زمینه ایران",
     filterBtnLabel: "فیلترها",
     lbl_target: "هدف", lbl_speed: "سرعت",
@@ -1367,12 +1377,14 @@ function renderGrid(){
   const vis = countVisible();
   document.getElementById('grid-stats').innerHTML = t('gridStats')(vis, ACTIONS.length);
 
+  /*
   // legend
   document.getElementById('legend').innerHTML = `
     <div class="legend-item"><div class="legend-dot" style="background:var(--domestic)"></div>${t('legDomestic')}</div>
     <div class="legend-item"><div class="legend-dot" style="background:var(--international)"></div>${t('legIntl')}</div>
     <div class="legend-item"><div class="legend-dot" style="background:var(--dual)"></div>${t('legDual')}</div>
   `;
+  */ 
 
   let html = '<thead><tr><th class="row-header"></th>';
   METHODS.forEach(m => { html += `<th>${metLbl(m)}</th>`; });
