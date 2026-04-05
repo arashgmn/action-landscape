@@ -198,7 +198,7 @@ body[dir="rtl"] { font-family: var(--font-persian); }
   transition: all 0.2s;
   color: var(--text-secondary);
 }
-.theme-btn:hover { border-color: var(--border-strong); }
+.theme-btn:hover { border-color: var(--border-strong); align-items: center;}
 
 /* iran context toggle */
 .iran-toggle {
@@ -1773,7 +1773,7 @@ function setLang(lang){
 function toggleTheme(){
   S.theme = S.theme==='dark'?'light':'dark';
   document.body.classList.toggle('light', S.theme==='light');
-  document.getElementById('theme-btn').textContent = S.theme==='dark'?'🌓':'🌙';
+  document.getElementById('theme-btn').textContent = S.theme==='dark'?'🌞':'🌔';
 }
 
 /* =====================================================
