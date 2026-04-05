@@ -1,4 +1,4 @@
-# De-escalation Explorer
+# Action landscape
 It's 2026. Iran witnessed a massacre in early Jan, and now is at war with Israel and the US. While BB and Trump steer the war, the regime in Iran has shut the Internet down (again), now for more than a month, and unleashed its propaganda machine instead. The population and the infrastructure are suffering from bombardments from Israel, Trump's numerous ultimatums, and the regime's open suppression. Meanwhile, the Iranian diaspora is more fragmented than ever. Plenty of (wrong) dilemmas are shattering even long‑standing friendships. Many are isolated, in their own sphere of anger, distress, and perhaps, above all, hopelessness.
 
 There are a couple of lingering questions that many in the Iranian diaspora (including me) ask themselves:
