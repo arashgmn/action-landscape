@@ -601,6 +601,12 @@ body.light .action-node:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.10); }
   letter-spacing: 0.04em; text-transform: uppercase;
   align-content: center;
 }
+
+/* target badges */
+.badge.tg-domestic   { background: rgba(105, 221, 149, .18); color: var(--domestic); }
+.badge.tg-international { background: rgba(149, 105, 221, .18); color: var(--international); }
+.badge.tg-dual   { background: rgba(221, 150, 105, .18); color: var(--dual); }
+
 /* speed badges */
 .badge.sp-fast   { background: rgba(14, 88, 185, .18); color: var(--speed-fast); }
 .badge.sp-medium { background: rgba(73, 154, 226, .18); color: var(--speed-medium); }
@@ -1643,7 +1649,7 @@ function openDrawer(id){
       <div class="drawer-meta">
         <span class="badge" style="background:var(--surface3);color:var(--text-secondary)">${actLbl(a.actor)}</span>
         <span class="badge" style="background:var(--surface3);color:var(--text-secondary)">${metLbl(a.method)}</span>
-        <span class="badge" style="background:${tc}20;color:${tc}">${tn}</span>
+        <span class="badge tg-${a.target}">${tn}</span>
         <span class="badge sp-${a.speed}">${spdLbl(a.speed)}</span>
         <span class="badge rk-${a.risk}">${rskLbl(a.risk)}</span>
         ${iranB}
