@@ -1231,7 +1231,6 @@ let S = {
 
 const ACTORS  = ['individual','organization','state','international','private'];
 const METHODS = ['diplomatic','mitigation','civic','economic','technological'];
-
 const LOOP_STAGE_ACTIONS = {
   polarization: ['dialogue_circles','media_literacy','digital_activism','education_reform','algorithmic_trust','citizen_participation','women_peacebuilding'],
   governance:   ['education_reform','peace_infrastructure','confidence_building','reverse_sanctions','threat_resilience'],
@@ -1701,39 +1700,9 @@ function hideTip(){ document.getElementById('tooltip').classList.remove('visible
    ===================================================== */
 function renderMethodology(){
   const l = T[S.lang];
-  // const rubricRows = [
-  //   ['Speed',             '1–5 (mapped)',  'Fast=5, Medium=3, Slow=1. Based on documented time-to-observable-impact in the literature.'],
-  //   ['Risk',              '1–3',           '1=Low (few adverse side-effects), 2=Medium (notable risks manageable), 3=High (significant adverse outcomes likely). Based on documented harms.'],
-  //   ['Scalability',       '1–5',           'How readily an intervention can be expanded from pilot to system-wide. Considers institutional infrastructure required.'],
-  //   ['Reversibility',     '1–5',           '5=fully reversible (easy to undo), 1=low reversibility (creates path dependencies). Relevant because some actions lock in outcomes.'],
-  //   ['Resource Intensity','1–5 (inverted)','Bar shows Low Resource Use = high score. 5=very low resource demand, 1=very high. Sources: WBG FCV cost literature.'],
-  //   ['Cultural Fit',      '1–5',           'Degree to which the action can be adapted to diverse local contexts without losing effectiveness. High = broadly adaptable.'],
-  // ];
   const rubricRows = T[S.lang].rubricRows;
   const axisData = T[S.lang].axisData;
   const tableLabels = T[S.lang].methodTableLabels;
-
-  // const axisData = [
-  //   {title:'ACTOR (Y-axis)', items:[
-  //     {label:'Individual', desc:'Grassroots; low institutional footprint'},
-  //     {label:'Organization', desc:'NGOs, P/CROs, civil society'},
-  //     {label:'State', desc:'Governments, political institutions'},
-  //     {label:'Int\'l Body', desc:'UN, EU, World Bank, regional bodies'},
-  //     {label:'Private Sector', desc:'Corporations, tech platforms'}
-  //   ]},
-  //   {title:'METHOD (X-axis)', items:[
-  //     {label:'Diplomatic', desc:'Formal talks, treaties, Track I'},
-  //     {label:'Mitigation', desc:'Ceasefires, CBMs, humanitarian pauses'},
-  //     {label:'Civic / Social', desc:'Education, dialogue, cultural projects'},
-  //     {label:'Economic', desc:'Sanctions, incentives, investment'},
-  //     {label:'Technological', desc:'Digital platforms, AI tools, media'}
-  //   ]},
-  //   {title:'TARGET (Colour)', items:[
-  //     {label:'Domestic', desc:'Reduces internal polarisation', colour:'var(--domestic)'},
-  //     {label:'International', desc:'Halts interstate conflict', colour:'var(--international)'},
-  //     {label:'Dual-target', desc:'Impacts both dimensions', colour:'var(--dual)'}
-  //   ]}
-  // ];
 
   const sources = [
     {num:'[1]', text:'UNDP: Insider Mediation & Peace Infrastructures (2025)', url:'https://www.undp.org/sites/g/files/zskgke326/files/2025-10/insider_mediation-a_catalyst_for_peace_infrastructures_undp_rh.pdf'},
