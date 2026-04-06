@@ -43,11 +43,10 @@
   --risk-high:     #d20916;
 
   /* iran highlight — teal/cyan accent */
-  --iran-accent:   #0a81ac; //#00c9b1;
-  --iran-bg:       rgba(10, 129, 172, .10); //rgba(0,201,177,0.10);
-  --iran-border:   rgba(10, 129, 172, .8); //rgba(0,201,177,0.55);
-  --iran-glow:     0 0 0 3px rgba(10, 129, 172, .35); //rgba(0,201,177,0.35);
-
+  --iran-accent:   #0a81ac; 
+  --iran-bg:       rgba(10, 129, 172, .10); 
+  --iran-border:   rgba(10, 129, 172, .8); 
+  --iran-glow:     0 0 0 3px rgba(10, 129, 172, .35); 
   --font-display: 'Playfair Display', Georgia, serif;
   --font-body:    'DM Sans', sans-serif;
   --font-persian: 'Vazirmatn', sans-serif;
@@ -697,13 +696,16 @@ body.light .action-node:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.10); }
   flex: 1; height: 5px; background: var(--surface3);
   border-radius: 3px; overflow: hidden;
 }
-.tradeoff-fill { height: 100%; border-radius: 3px; transition: width 0.5s cubic-bezier(0.4,0,0.2,1); }
-.tradeoff-fill.tf-teal   { background: var(--speed-fast); }
+.tradeoff-fill { 
+  height: 100%; border-radius: 3px; background: var(--crisis);
+  transition: width 0.5s cubic-bezier(0.4,0,0.2,1); 
+}
+/* .tradeoff-fill.tf-teal   { background: var(--speed-fast); }
 .tradeoff-fill.tf-red    { background: var(--risk-high); }
 .tradeoff-fill.tf-blue   { background: var(--domestic); }
 .tradeoff-fill.tf-gold   { background: var(--risk-medium); }
 .tradeoff-fill.tf-purple { background: var(--dual); }
-.tradeoff-fill.tf-green  { background: var(--risk-low); }
+.tradeoff-fill.tf-green  { background: var(--risk-low); } */
 .tradeoff-val { width: 24px; font-size: 10px; color: var(--text-secondary); text-align: right; }
 [dir="rtl"] .tradeoff-val { text-align: left; }
 
@@ -1618,12 +1620,12 @@ function openDrawer(id){
 
   const spVal = {fast:5,medium:3,slow:1}[a.speed];
   const bars = [
-    {label:t('speedLbl'), val:spVal,        max:5, cls:'tf-teal'},
-    {label:t('riskLbl'),  val:a.risk,        max:3, cls:'tf-red'},
-    {label:t('scalLbl'),  val:a.scalability, max:5, cls:'tf-blue'},
-    {label:t('revLbl'),   val:a.reversibility,max:5,cls:'tf-gold'},
-    {label:t('resLbl'),   val:6-a.resources, max:5, cls:'tf-green'},
-    {label:t('cultLbl'),  val:a.cultural_adaptability,max:5,cls:'tf-purple'}
+    {label:t('speedLbl'), val:spVal,                  max:5,  cls:'tf-teal'},
+    {label:t('riskLbl'),  val:a.risk,                 max:3,  cls:'tf-red'},
+    {label:t('scalLbl'),  val:a.scalability,          max:5,  cls:'tf-blue'},
+    {label:t('revLbl'),   val:a.reversibility,        max:5,  cls:'tf-gold'},
+    {label:t('resLbl'),   val:6-a.resources,          max:5,  cls:'tf-green'},
+    {label:t('cultLbl'),  val:a.cultural_adaptability,max:5,  cls:'tf-purple'}
   ];
 
   const tc = {domestic:'var(--domestic)',international:'var(--international)',dual:'var(--dual)'}[a.target];
