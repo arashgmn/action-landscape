@@ -1288,7 +1288,38 @@ const T = {
     m_sourcesTitle: "Key Academic & Policy Sources",
     m_feedbackTitle: "The Crisis Feedback Loop",
     m_feedbackText: "The loop bar at the top of the Explorer encodes the paper's core theoretical insight: domestic polarisation and international conflict are not separate problems — they form a mutually reinforcing cycle. Clicking a stage filters actions that intervene specifically at that point in the cycle.",
-    m_feedbackLoop: "Domestic Polarisation → Governance Weakness → External Pressure → International Conflict → (reinforces) Domestic Polarisation"
+    m_feedbackLoop: "Domestic Polarisation → Governance Weakness → External Pressure → International Conflict → (reinforces) Domestic Polarisation",
+    // trade-off table
+    rubricRows: [
+      ['Speed',             '1–5 (mapped)',  'Fast=5, Medium=3, Slow=1. Based on documented time-to-observable-impact in the literature.'],
+      ['Risk',              '1–3',           '1=Low (few adverse side-effects), 2=Medium (notable risks manageable), 3=High (significant adverse outcomes likely). Based on documented harms.'],
+      ['Scalability',       '1–5',           'How readily an intervention can be expanded from pilot to system-wide. Considers institutional infrastructure required.'],
+      ['Reversibility',     '1–5',           '5=fully reversible (easy to undo), 1=low reversibility (creates path dependencies). Relevant because some actions lock in outcomes.'],
+      ['Resource Intensity','1–5 (inverted)','Bar shows Low Resource Use = high score. 5=very low resource demand, 1=very high. Sources: WBG FCV cost literature.'],
+      ['Cultural Fit',      '1–5',           'Degree to which the action can be adapted to diverse local contexts without losing effectiveness. High = broadly adaptable.'] 
+    ],
+    axisData: [
+      {title:'ACTOR (Y-axis)', items:[
+        {label:'Individual', desc:'Grassroots; low institutional footprint'},
+        {label:'Organization', desc:'NGOs, P/CROs, civil society'},
+        {label:'State', desc:'Governments, political institutions'},
+        {label:'Int\'l Body', desc:'UN, EU, World Bank, regional bodies'},
+        {label:'Private Sector', desc:'Corporations, tech platforms'}
+      ]},
+      {title:'METHOD (X-axis)', items:[
+        {label:'Diplomatic', desc:'Formal talks, treaties, Track I'},
+        {label:'Mitigation', desc:'Ceasefires, CBMs, humanitarian pauses'},
+        {label:'Civic / Social', desc:'Education, dialogue, cultural projects'},
+        {label:'Economic', desc:'Sanctions, incentives, investment'},
+        {label:'Technological', desc:'Digital platforms, AI tools, media'}
+      ]},
+      {title:'TARGET (Colour)', items:[
+        {label:'Domestic', desc:'Reduces internal polarisation', colour:'var(--domestic)'},
+        {label:'International', desc:'Halts interstate conflict', colour:'var(--international)'},
+        {label:'Dual-target', desc:'Impacts both dimensions', colour:'var(--dual)'}
+      ]}
+    ],
+    methodTableLabels: ['Attribute', 'Scale', 'Criteria & Source Basis'],
   },
   fa: {
     mainTitle: "کاوشگر چشم‌انداز کنش",
@@ -1338,9 +1369,58 @@ const T = {
     m_sourcesTitle: "منابع دانشگاهی و سیاستی کلیدی",
     m_feedbackTitle: "حلقه بازخورد بحران",
     m_feedbackText: "نوار حلقه در بالای کاوشگر بینش نظری اصلی مقاله را رمزگذاری می‌کند: قطبی‌سازی داخلی و درگیری بین‌المللی مشکلات جداگانه‌ای نیستند — آنها یک چرخه متقابل تقویت‌کننده تشکیل می‌دهند.",
-    m_feedbackLoop: "قطبی‌سازی داخلی ← ضعف حاکمیت ← فشار خارجی ← درگیری بین‌المللی ← (تقویت) قطبی‌سازی داخلی"
+    m_feedbackLoop: "قطبی‌سازی داخلی ← ضعف حاکمیت ← فشار خارجی ← درگیری بین‌المللی ← (تقویت) قطبی‌سازی داخلی",
+    rubricRows: [
+      ['سرعت',  '(نگاشته‌شده به) ۵−۱',  '۵=سریع، ۳=متوسط، ۱=آهسته. بر پایه‌ی «زمان‌تا‌اثرمشاهده‌پذیر» مستند شده در مولفات.'],
+      ['ریسک',              '۱-۳',           '۱=اندک (اثرات‌جانبی مخرب کم)، ۲= متوسط (قابل‌توجه اما کنترل‌پذیر)، ۳=بالا (احتمال بالای اثرات مخرب چشمگیر). بر پایه‌ی مخاطرات مستند شده.'],
+      ['مقیاس‌پذیری',       '۱-۵',           'چه‌قدر سریع یک مداخله می تواند از یک طرح اولیه به کل نظام گسترده شود. نیاز به توجه به زیرساخت‌های نهادی.'],
+      ['بازگشت‌پذیری',     '۱-۵',           '۵= کاملا بازگشت‌پذیر، ۱=بازگشت‌پذیری کم (وابستگی تولید خواهدکرد). مربوط، چون برخی کنش‌ها ممکن است درهم‌تنیدگی ساختاری ایجاد کنند.'],
+      ['نیاز به منابع','۱-۵ (معکوس)','ستون‌ها نشانگر مصرف منابع کم‌تر هستند. ۵=نیاز اندک به منابع، ۱=نیاز زیاد. بر پایه‌ی مطالعه‌ی گروه بانک جهانی: شکنندگی، درگیری و خشونت (World Bank FCV)'],
+      ['تناسب فرهنگی',      '۱-۵',           'میزان انطباق‌پذیری کنش با زمینه‌های محلی گسترده بدون از کاهش اثرگذاری. ۱=انطباق‌پذیری اندک، ۵= انطباق‌پذیری گسترده.'] 
+    ],
+    axisData: [
+      {title:'بازیگر (محور Y)', items:[
+        {label:'فرد', desc:'مردمی، کمینه نهاد‌سازی'},
+        {label:'نهاد', desc:'جامعه‌ی مدنی، سازمان‌های مردم‌نهاد، سازمان‌های پژوهشی قراردادی/شراکتی'},
+        {label:'حکومت', desc:'دولت، نهادهای سیاسی'},
+        {label:'نهاد بین‌المللی', desc:'سازمان‌ملل، اتحادیه‌اروپا، بانک جهانی، سازمان‌های منطقه‌ای'},
+        {label:'بخش خصوصی', desc:'شرکت‌ها و بسترهای تکنولوژیک'}
+      ]},
+      {title:'روش (محور X)', items:[
+        {label:'دیپلماتیک', desc:'دیدارهای رسمی، معاهده‌ها، مسیر ۱'},
+        {label:'کاهش تنش', desc:'آتش‌بس، سنجه‌های اعتمادسازی (CBM)، توقف‌های بشردوستانه'},
+        {label:'مدنی/اجتماعی', desc:'آموزش، گفت‌و‌شنود، پروژه‌های فرهنگی'},
+        {label:'اقتصادی', desc:'تحریم‌ها، مشوق‌ها، سرمایه‌گذاری‌ها'},
+        {label:'فناورانه', desc:'بسترهای دیجیتال، ابزارهای هوش‌مصنوعی، رسانه‌ها'}
+      ]},
+      {title:'حیطه (رنگ)', items:[
+        {label:'داخلی', desc:'قطبی‌سازی داخلی را می‌کاهد.', colour:'var(--domestic)'},
+        {label:'خارجی', desc:'درگیری بین‌ دولت‌ها را متوقف می‌کند.', colour:'var(--international)'},
+        {label:'هردو', desc:'بر هر دو تاثیر می‌گذارد.', colour:'var(--dual)'}
+      ]}
+    ],
+    methodTableLabels: ['ویژگی', 'مقیاس', 'معیارها و منابع مطالعاتی']
   }
 };
+
+// const T_rubricRows = {
+//   en: [
+//     ['Speed',             '1–5 (mapped)',  'Fast=5, Medium=3, Slow=1. Based on documented time-to-observable-impact in the literature.'],
+//     ['Risk',              '1–3',           '1=Low (few adverse side-effects), 2=Medium (notable risks manageable), 3=High (significant adverse outcomes likely). Based on documented harms.'],
+//     ['Scalability',       '1–5',           'How readily an intervention can be expanded from pilot to system-wide. Considers institutional infrastructure required.'],
+//     ['Reversibility',     '1–5',           '5=fully reversible (easy to undo), 1=low reversibility (creates path dependencies). Relevant because some actions lock in outcomes.'],
+//     ['Resource Intensity','1–5 (inverted)','Bar shows Low Resource Use = high score. 5=very low resource demand, 1=very high. Sources: WBG FCV cost literature.'],
+//     ['Cultural Fit',      '1–5',           'Degree to which the action can be adapted to diverse local contexts without losing effectiveness. High = broadly adaptable.'] 
+//   ],
+//   fa: [
+//     ['سرعت',  '(نگاشته‌شده به) ۵−۱',  '۵=سریع، ۳=متوسط، ۱=آهسته. بر پایه‌ی «زمان‌تا‌اثرمشاهده‌پذیر» مستند شده در مولفات.'],
+//     ['ریسک',              '۱-۳',           '۱=اندک (اثرات‌جانبی مخرب کم)، ۲= متوسط (قابل‌توجه اما کنترل‌پذیر)، ۳=بالا (احتمال بالای اثرات مخرب چشمگیر). بر پایه‌ی مخاطرات مستند شده.'],
+//     ['مقیاس‌پذیری',       '۱-۵',           'چه‌قدر سریع یک مداخله می تواند از یک طرح اولیه به کل نظام گسترده شود. نیاز به توجه به زیرساخت‌های نهادی.'],
+//     ['بازگشت‌پذیری',     '۱-۵',           '۵= کاملا بازگشت‌پذیر، ۱=بازگشت‌پذیری کم (وابستگی تولید خواهدکرد). مربوط، چون برخی کنش‌ها ممکن است درهم‌تنیدگی ساختاری ایجاد کنند.'],
+//     ['نیاز به منابع','۱-۵ (معکوس)','ستون‌ها نشانگر مصرف منابع کم‌تر هستند. ۵=نیاز اندک به منابع، ۱=نیاز زیاد. بر پایه‌ی مطالعه‌ی گروه بانک جهانی: شکنندگی، درگیری و خشونت (World Bank FCV)'],
+//     ['تناسب فرهنگی',      '۱-۵',           'میزان انطباق‌پذیری کنش با زمینه‌های محلی گسترده بدون از کاهش اثرگذاری. ۱=انطباق‌پذیری اندک، ۵= انطباق‌پذیری گسترده.'] 
+//   ]
+// };
 
 /* =====================================================
    HELPERS
@@ -1621,36 +1701,39 @@ function hideTip(){ document.getElementById('tooltip').classList.remove('visible
    ===================================================== */
 function renderMethodology(){
   const l = T[S.lang];
-  const rubricRows = [
-    ['Speed',             '1–5 (mapped)',  'Fast=5, Medium=3, Slow=1. Based on documented time-to-observable-impact in the literature.'],
-    ['Risk',              '1–3',           '1=Low (few adverse side-effects), 2=Medium (notable risks manageable), 3=High (significant adverse outcomes likely). Based on documented harms.'],
-    ['Scalability',       '1–5',           'How readily an intervention can be expanded from pilot to system-wide. Considers institutional infrastructure required.'],
-    ['Reversibility',     '1–5',           '5=fully reversible (easy to undo), 1=low reversibility (creates path dependencies). Relevant because some actions lock in outcomes.'],
-    ['Resource Intensity','1–5 (inverted)','Bar shows Low Resource Use = high score. 5=very low resource demand, 1=very high. Sources: WBG FCV cost literature.'],
-    ['Cultural Fit',      '1–5',           'Degree to which the action can be adapted to diverse local contexts without losing effectiveness. High = broadly adaptable.'],
-  ];
+  // const rubricRows = [
+  //   ['Speed',             '1–5 (mapped)',  'Fast=5, Medium=3, Slow=1. Based on documented time-to-observable-impact in the literature.'],
+  //   ['Risk',              '1–3',           '1=Low (few adverse side-effects), 2=Medium (notable risks manageable), 3=High (significant adverse outcomes likely). Based on documented harms.'],
+  //   ['Scalability',       '1–5',           'How readily an intervention can be expanded from pilot to system-wide. Considers institutional infrastructure required.'],
+  //   ['Reversibility',     '1–5',           '5=fully reversible (easy to undo), 1=low reversibility (creates path dependencies). Relevant because some actions lock in outcomes.'],
+  //   ['Resource Intensity','1–5 (inverted)','Bar shows Low Resource Use = high score. 5=very low resource demand, 1=very high. Sources: WBG FCV cost literature.'],
+  //   ['Cultural Fit',      '1–5',           'Degree to which the action can be adapted to diverse local contexts without losing effectiveness. High = broadly adaptable.'],
+  // ];
+  const rubricRows = T[S.lang].rubricRows;
+  const axisData = T[S.lang].axisData;
+  const tableLabels = T[S.lang].methodTableLabels;
 
-  const axisData = [
-    {title:'ACTOR (Y-axis)', items:[
-      {label:'Individual', desc:'Grassroots; low institutional footprint'},
-      {label:'Organization', desc:'NGOs, P/CROs, civil society'},
-      {label:'State', desc:'Governments, political institutions'},
-      {label:'Int\'l Body', desc:'UN, EU, World Bank, regional bodies'},
-      {label:'Private Sector', desc:'Corporations, tech platforms'}
-    ]},
-    {title:'METHOD (X-axis)', items:[
-      {label:'Diplomatic', desc:'Formal talks, treaties, Track I'},
-      {label:'Mitigation', desc:'Ceasefires, CBMs, humanitarian pauses'},
-      {label:'Civic / Social', desc:'Education, dialogue, cultural projects'},
-      {label:'Economic', desc:'Sanctions, incentives, investment'},
-      {label:'Technological', desc:'Digital platforms, AI tools, media'}
-    ]},
-    {title:'TARGET (Colour)', items:[
-      {label:'Domestic', desc:'Reduces internal polarisation', colour:'var(--domestic)'},
-      {label:'International', desc:'Halts interstate conflict', colour:'var(--international)'},
-      {label:'Dual-target', desc:'Impacts both dimensions', colour:'var(--dual)'}
-    ]}
-  ];
+  // const axisData = [
+  //   {title:'ACTOR (Y-axis)', items:[
+  //     {label:'Individual', desc:'Grassroots; low institutional footprint'},
+  //     {label:'Organization', desc:'NGOs, P/CROs, civil society'},
+  //     {label:'State', desc:'Governments, political institutions'},
+  //     {label:'Int\'l Body', desc:'UN, EU, World Bank, regional bodies'},
+  //     {label:'Private Sector', desc:'Corporations, tech platforms'}
+  //   ]},
+  //   {title:'METHOD (X-axis)', items:[
+  //     {label:'Diplomatic', desc:'Formal talks, treaties, Track I'},
+  //     {label:'Mitigation', desc:'Ceasefires, CBMs, humanitarian pauses'},
+  //     {label:'Civic / Social', desc:'Education, dialogue, cultural projects'},
+  //     {label:'Economic', desc:'Sanctions, incentives, investment'},
+  //     {label:'Technological', desc:'Digital platforms, AI tools, media'}
+  //   ]},
+  //   {title:'TARGET (Colour)', items:[
+  //     {label:'Domestic', desc:'Reduces internal polarisation', colour:'var(--domestic)'},
+  //     {label:'International', desc:'Halts interstate conflict', colour:'var(--international)'},
+  //     {label:'Dual-target', desc:'Impacts both dimensions', colour:'var(--dual)'}
+  //   ]}
+  // ];
 
   const sources = [
     {num:'[1]', text:'UNDP: Insider Mediation & Peace Infrastructures (2025)', url:'https://www.undp.org/sites/g/files/zskgke326/files/2025-10/insider_mediation-a_catalyst_for_peace_infrastructures_undp_rh.pdf'},
@@ -1710,9 +1793,9 @@ function renderMethodology(){
       <h2>${l.m_rubricTitle}</h2>
       <p>${l.m_rubricIntro}</p>
       <table class="rubric-table">
-        <thead><tr><th>Attribute</th><th>Scale</th><th>Criteria & Source Basis</th></tr></thead>
+        <thead><tr><th>${tableLabels[0]}</th><th>${tableLabels[1]}</th><th>${tableLabels[2]}</th></tr></thead>
         <tbody>
-          ${rubricRows.map(r=>`<tr><td>${r[0]}</td><td><code>${r[1]}</code></td><td>${r[2]}</td></tr>`).join('')}
+          ${rubricRows.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('')}
         </tbody>
       </table>
     </div>
